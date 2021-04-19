@@ -25,7 +25,7 @@ public:
      */
     explicit EFSParamCountError(std::string error) : error{std::move(error)} {}
 
-    const char* what() const noexcept final { return error.c_str(); }
+    [[nodiscard]] const char* what() const noexcept final { return error.c_str(); }
 
 private:
     std::string error;
@@ -40,7 +40,7 @@ public:
      */
     explicit SpaceShipBCountError(std::string error) : error{std::move(error)} {}
 
-    const char* what() const noexcept final { return error.c_str(); }
+    [[nodiscard]] const char* what() const noexcept final { return error.c_str(); }
 private:
     std::string error;
 };
@@ -68,7 +68,7 @@ public:
     /*!
      * @return the length of a vector
      */
-    double length() const { return sqrt(x * x + y * y); }
+    [[nodiscard]] double length() const { return sqrt(x * x + y * y); }
 
     /*!
      * This is how Vectors are summed. Yeah
@@ -144,7 +144,7 @@ public:
     /*!
      * @return how many energy is in a battery
      */
-    double how_many_energy() const { return contain_energy; }
+    [[nodiscard]] double how_many_energy() const { return contain_energy; }
 
     /*!
      * Sets maximum and containing energy
@@ -208,7 +208,7 @@ public:
      * @param f amount of fuel
      * @return  energy to use
      */
-    double energy_cost(double f) const;
+    [[nodiscard]] double energy_cost(double f) const;
 
     /*!
      * Sets params of class exemplar
@@ -228,14 +228,14 @@ public:
      * If you wanna know how many fuel you have
      * @return contain_v
      */
-    double get_fuel() const { return contain_v; }
+    [[nodiscard]] double get_fuel() const { return contain_v; }
 
     /*!
      * It checks how many fuel we can give with <energy> amount of energy
      * @param energy
      * @return
      */
-    double max_amount_of_fuel_to_give(double energy) const;
+    [[nodiscard]] double max_amount_of_fuel_to_give(double energy) const;
 
     ~FuelTank() = default;
 
@@ -292,7 +292,7 @@ public:
      */
     double use_some_fuel(double fuel);
 
-    double get_fuel() const { return tank.get_fuel(); }
+    [[nodiscard]] double get_fuel() const { return tank.get_fuel(); }
 
     ~EnergyFuelSystem() = default;
 
@@ -348,7 +348,7 @@ public:
      * This method should be used to make Energy Fuel System
      * @return pointer to
      */
-    EnergyFuelSystem* make_efs() const {
+    [[nodiscard]] EnergyFuelSystem* make_efs() const {
         if (count_of_setted_params != 5)
             throw EFSParamCountError("Count of params of Energy fuel system is not 5");
         auto efs = new EnergyFuelSystem(size_of_bat_arr, battery_energy, fu, fQ, fmv);
@@ -404,25 +404,25 @@ public:
      * Function to see how many fuel we have
      * @return value of a <fuel> variable
      */
-    double get_fuel() const { return efs.get_fuel(); }
+    [[nodiscard]] double get_fuel() const { return efs.get_fuel(); }
 
     /*!
      * Checks if engine is active or not
      * @return value of <is_engine_active> variable
      */
-    bool is_engine_active_or_not() const { return is_engine_active; }
+    [[nodiscard]] bool is_engine_active_or_not() const { return is_engine_active; }
 
     /*!
      * If you wanna know where the ship is.
      * @return a position of the ship
      */
-    Vector get_position() const { return R; }
+    [[nodiscard]] Vector get_position() const { return R; }
 
     /*!
      * If you wanna know the velocity of the ship
      * @return a velocity of the ship
      */
-    Vector get_velocity() const { return V; }
+    [[nodiscard]] Vector get_velocity() const { return V; }
 
 private:
     /*!
