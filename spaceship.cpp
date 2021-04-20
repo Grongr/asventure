@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <algorithm>
 #include "spaceship.h"
 
 //-----------------------------------------------------------------------------------------------------------//
@@ -10,8 +11,19 @@ Vector Vector::operator+(Vector const& r) const {
     return Vector(this->x + r.x, this->y + r.y);
 }
 
+Vector Vector::operator-(Vector const& r) const {
+    return Vector(this->x - r.x, this->y - r.y)
+}
+
 Vector Vector::operator*(double value) const {
     return Vector(this->x * value, this->y * value);
+}
+
+void Vector::normalise() {
+    if (this->x != 0)
+        this->x /= this->x;
+    if (this->y != 0)
+        this->y /= this->y;
 }
 
 bool Vector::operator!=(Vector const &r) const {
@@ -141,3 +153,38 @@ double EnergyFuelSystem::use_some_fuel(double fuel) {
     return fuel;
 }
 //-----------------------------------------------------------------------------------------------------------//
+void PirateShip::move_ship(double time) {
+    static double time_of_moving = 0;
+    static auto it = trajectory.begin();
+
+    double needed_time = 0;
+
+    auto time_count = [&needed_time, this]
+                      (std::vector<Vector>::iterator it) {
+        time_of_moving = 0;
+        this->V = *(++it) - *it;
+        needed_time = this->V.length();
+        this->V.normalise();
+        needed_time /= this->V.length();
+    };
+
+    if (time_of_moving == 0)
+        time_count(it);
+
+    if (it != trajectory.end() - 1) {
+        if (time_of_moving + time > needed_time) {                              // If you need to change
+            ++it;                                                               // destination in the middle
+            this->R = this->R + this->V * (needed_time - time_of_moving);   // deltaR before changing
+            time -= needed_time - time_of_moving;
+            time_count(it);                                                 // count new needed time
+            this->R = this->R + this->V * time;                             // deltaR after changing
+            time_of_moving += time;
+        } else {                                                                // If you go straight
+            this->R = this->R + this->V * time;
+            time_of_moving += time;
+        }
+    } else {                                                                    // Repeat all the movings in
+        std::reverse(trajectory.begin(), trajectory.end());            // reversed order to not stopping
+        it = trajectory.begin();
+    }
+}

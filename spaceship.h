@@ -517,9 +517,12 @@ class PirateShip : public SpaceShip {
 public:
     /*!
      * Moves pirate's spaceship for "time" time
+     * It moves down the line between to neighbour points
+     * from trajectory. If no points left flies in reversed order
+     * till the firs point is reached
      * @param time    time of moving
      */
-    //void move_ship(double time);
+    void move_ship(double time) final;
 
 
 private:
