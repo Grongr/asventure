@@ -71,12 +71,24 @@ public:
     [[nodiscard]] double length() const { return sqrt(x * x + y * y); }
 
     /*!
+     * Normalises this vector
+     */
+    void normalise();
+
+    /*!
      * This is how Vectors are summed. Yeah
      * I wish, there is the word like "summed" in English language
-     * @param p
+     * @param r
      * @return
      */
     Vector operator+ (Vector const& r) const;
+
+    /*!
+     * This is how Vectors are subtracted.
+     * @param r
+     * @return
+     */
+    Vector operator- (Vector const& r) const;
 
     /*!
      * You know, that is vector that is multiplied on a real number...
@@ -92,6 +104,9 @@ public:
      */
     bool operator!= (Vector const &r) const;
 
+    //TODO: Delete this shit
+    [[nodiscard]] double x_pos() const { return x; }
+    [[nodiscard]] double y_pos() const { return y; }
     /*!
      * How to integrate one vector into another
      * @param p
@@ -357,6 +372,9 @@ public:
 
 };
 //-----------------------------------------------------------------------------------------------------------//
+/*!
+ * Basic Spaceship class. Interface to all the spaceships and player's character
+ */
 class SpaceShip {
 public:
     /*!
@@ -392,7 +410,7 @@ public:
      * Changing radius vector of space ship while it is moving for <time>
      * @param time
      */
-    void move_ship(double time);
+    virtual void move_ship(double time);
 
     /*!
      * Toggles engine active or not.
@@ -424,7 +442,7 @@ public:
      */
     [[nodiscard]] Vector get_velocity() const { return V; }
 
-private:
+protected:
     /*!
      * @param R                 radius vector of the ship
      * @param V                 velocity
@@ -440,6 +458,9 @@ private:
     EnergyFuelSystem efs;
 };
 //-----------------------------------------------------------------------------------------------------------//
+/*!
+ * Basic Spaceship class builder
+ */
 class SpaceShipBuilder {
 public:
     /*!
@@ -472,7 +493,13 @@ public:
     void set_V(Vector const& V)          { this->V = V; ++count_of_params; }
     void set_mass(double mass)           { this->mass = mass; ++count_of_params; }
 
-    SpaceShip* make_spaceship(EnergyFuelSystemBuilder const& efs) {
+    /*!
+     * Makes spaceship from given params and EFSBuilder object.
+     * Yeah it's quite difficult but I have no ideas how to write it another way
+     * @param efs
+     * @return
+     */
+    [[nodiscard]] virtual SpaceShip* make_spaceship(EnergyFuelSystemBuilder const& efs) {
         if (count_of_params != 6)
             throw SpaceShipBCountError("Count of params in spaceship builder is not 6");
         auto sps = new SpaceShip(efs, mass, fuel_cost, R, V, AVec);
@@ -485,5 +512,22 @@ protected:
     bool is_engine_active;
     int count_of_params{0};
 };
+//-----------------------------------------------------------------------------------------------------------//
+class PirateShip : public SpaceShip {
+public:
+    /*!
+     * Moves pirate's spaceship for "time" time
+     * @param time    time of moving
+     */
+    //void move_ship(double time);
 
+
+private:
+    /*!
+     * @param trajectory array of coords between which spaceship travels
+     * @param head_cost  how much money can ypu earn from killing this ship
+     */
+    std::vector<Vector> trajectory{};
+    int head_cost{0};
+};
 #endif //SPACESHIP_SPACESHIP_H
