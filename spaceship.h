@@ -407,10 +407,21 @@ public:
     void set_accel_direction(Vector new_dir) { this->AVec = new_dir; }
 
     /*!
+     * Return acceleration
+     */
+    Vector get_accel() { return this->AVec; }
+
+    /*!
+     * Changing velocity to new_vel
+     * @param new_vel
+     */
+    void set_velocity(Vector new_vel) { this->V = new_vel; } 
+
+    /*!
      * Changing radius vector of space ship while it is moving for <time>
      * @param time
      */
-    virtual void move_ship(double time);
+    virtual Vector  move_ship(double time);
 
     /*!
      * Toggles engine active or not.
@@ -481,7 +492,7 @@ public:
     SpaceShipBuilder(Vector const& R, Vector const& V, Vector const& AVec,
                      double mass, double fuel_cost, bool is_engine_active)
         : R{R}, V{V}, AVec{AVec}, mass{mass}, fuel_cost{mass},
-          is_engine_active{is_engine_active}, count_of_params{5} {}
+          is_engine_active{is_engine_active}, count_of_params{6} {}
 
     /*
      *  List of functions which could be used to set params of spaceship
@@ -499,7 +510,7 @@ public:
      * @param efs
      * @return
      */
-    [[nodiscard]] virtual SpaceShip* make_spaceship(EnergyFuelSystemBuilder const& efs) {
+    [[nodiscard]] SpaceShip* make_spaceship(EnergyFuelSystemBuilder const& efs) {
         if (count_of_params != 6)
             throw SpaceShipBCountError("Count of params in spaceship builder is not 6");
         auto sps = new SpaceShip(efs, mass, fuel_cost, R, V, AVec);

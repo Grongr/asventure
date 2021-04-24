@@ -26,7 +26,7 @@ void Vector::print_vector() const {
 }
 
 //-----------------------------------------------------------------------------------------------------------//
-void SpaceShip::move_ship(double time) {
+Vector SpaceShip::move_ship(double time) {
     if (this->is_engine_active) {
         double needed_fuel = time * fuel_cost;
 
@@ -46,6 +46,8 @@ void SpaceShip::move_ship(double time) {
     } else {
         R = R + (V * time);
     }
+
+    return R;
 }
 
 bool SpaceShip::toggle_engine() {
