@@ -6,6 +6,8 @@
 #define SPACESHIP_UNITESTS_H
 
 #include "spaceship.h"
+#include "pirateship.h"
+
 #include <iostream>
 
 /*!
@@ -15,11 +17,31 @@
  * @param R         correct resulting vector
  * @return          true if test is passed and false if not
  */
-bool check_unit_test(int test_num, Vector R0, Vector R);
+bool sps_move_check_unit_test(int test_num, Vector const& R0, Vector const& R);
 
 /*!
- *  Function for unit testing
+ * Testing move_ship() func of SpaceShip class
  */
-void unit_test();
+void sps_move_unit_test();
+
+/*!
+ * Checks if unit test is passed correctly
+ * @param tn
+ * @param time
+ * @param RRes
+ * @return
+ */
+bool pirate_ship_move_check_unit_test(int tn, double time, Vector const& RRes);
+
+/*!
+ * Sets params of pbl to default value
+ * @param pbl
+ */
+void make_default_psh(PirateShipBuilder& pbl);
+
+/*!
+ * Testing move_ship() func of PirateShip class
+ */
+void pirate_ship_move_unit_test();
 
 #endif //SPACESHIP_UNITESTS_H

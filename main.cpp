@@ -1,7 +1,8 @@
-#include <iostream>
 #include "unitests.h"
 
 int main() {
-    unit_test();
+    sps_move_unit_test();
+    std::cout << std::endl;
+    pirate_ship_move_unit_test();
     return 0;
 }

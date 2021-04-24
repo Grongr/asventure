@@ -7,128 +7,13 @@
 
 #define DEBUG
 
-#include <exception>
+#include "sps_errors.h"
+#include "geometricvector.h"
+
 #include <vector>
 #include <string>
 #include <cmath>
 
-//-----------------------------------------------------------------------------------------------------------//
-/*!
- * Error which is thrown when count of params of EFS builder is not 5
- */
-class EFSParamCountError : std::exception {
-public:
-
-    /*!
-     * Default constructor to this error type
-     * @param error  string which says what is an error
-     */
-    explicit EFSParamCountError(std::string error) : error{std::move(error)} {}
-
-    [[nodiscard]] const char* what() const noexcept final { return error.c_str(); }
-
-private:
-    std::string error;
-};
-
-class SpaceShipBCountError : std::exception {
-public:
-
-    /*!
-     * Default constructor to this error type
-     * @param error  some info about this error
-     */
-    explicit SpaceShipBCountError(std::string error) : error{std::move(error)} {}
-
-    [[nodiscard]] const char* what() const noexcept final { return error.c_str(); }
-private:
-    std::string error;
-};
-
-//-----------------------------------------------------------------------------------------------------------//
-/*!
- * Geometric representation of a vector in 3D space
- */
-class Vector {
-public:
-    /*!
-     * Default constructor.
-     * Params become zeroes :)
-     */
-    Vector() : x{0}, y{0} { }
-
-    /*!
-     * Constructor which could initialize all coordinates
-     * @param x
-     * @param y
-     * @param z
-     */
-    Vector(double x, double y) : x{x}, y{y} { }
-
-    /*!
-     * @return the length of a vector
-     */
-    [[nodiscard]] double length() const { return sqrt(x * x + y * y); }
-
-    /*!
-     * Normalises this vector
-     */
-    void normalise();
-
-    /*!
-     * This is how Vectors are summed. Yeah
-     * I wish, there is the word like "summed" in English language
-     * @param r
-     * @return
-     */
-    Vector operator+ (Vector const& r) const;
-
-    /*!
-     * This is how Vectors are subtracted.
-     * @param r
-     * @return
-     */
-    Vector operator- (Vector const& r) const;
-
-    /*!
-     * You know, that is vector that is multiplied on a real number...
-     * @param value
-     * @return
-     */
-    Vector operator* (double value) const;
-
-    /*!
-     * Operator !=
-     * @param r
-     * @return true if this != r
-     */
-    bool operator!= (Vector const &r) const;
-
-    //TODO: Delete this shit
-    [[nodiscard]] double x_pos() const { return x; }
-    [[nodiscard]] double y_pos() const { return y; }
-    /*!
-     * How to integrate one vector into another
-     * @param p
-     * @return result vector
-     */
-    Vector& operator= (Vector const &p) = default;
-
-#ifdef DEBUG
-
-    /*!
-     * Simply out x, y
-     */
-    void print_vector() const;
-
-#endif // DEBUG
-
-protected:
-    /*!
-     * Coordinates of a point in space
-     */
-    double x, y;
-};
 //-----------------------------------------------------------------------------------------------------------//
 /*!
  * A class that structure energy conversions
@@ -309,7 +194,7 @@ public:
 
     [[nodiscard]] double get_fuel() const { return tank.get_fuel(); }
 
-    ~EnergyFuelSystem() = default;
+    virtual ~EnergyFuelSystem() = default;
 
 private:
     double full_energy{0};
@@ -442,6 +327,17 @@ public:
      */
     [[nodiscard]] Vector get_velocity() const { return V; }
 
+    /*!
+     * To change accel direction we should know the old one (:
+     * @return AVec
+     */
+    [[nodiscard]] Vector get_acceleration() const { return AVec; }
+
+    /*!
+     * Destructor of spaceship. To avoid hierarchy errors (:
+     */
+    virtual ~SpaceShip() = default;
+
 protected:
     /*!
      * @param R                 radius vector of the ship
@@ -486,22 +382,22 @@ public:
     /*
      *  List of functions which could be used to set params of spaceship
      */
+    virtual void set_R(Vector const& R)  { this->R = R; ++count_of_params; }
     void set_fuel_cost(double fuel_cost) { this->fuel_cost = fuel_cost; ++count_of_params; }
     void set_is_engine_active(bool b)    { this->is_engine_active = b; ++count_of_params; }
     void set_AVec(Vector const& AVec)    { this->AVec = AVec; ++count_of_params; }
-    void set_R(Vector const& R)          { this->R = R; ++count_of_params; }
     void set_V(Vector const& V)          { this->V = V; ++count_of_params; }
     void set_mass(double mass)           { this->mass = mass; ++count_of_params; }
 
     /*!
      * Makes spaceship from given params and EFSBuilder object.
      * Yeah it's quite difficult but I have no ideas how to write it another way
-     * @param efs
-     * @return
+     * @param efs  EFSBuilder object
+     * @return     pointer to created Spaceship object
      */
     [[nodiscard]] virtual SpaceShip* make_spaceship(EnergyFuelSystemBuilder const& efs) {
         if (count_of_params != 6)
-            throw SpaceShipBCountError("Count of params in spaceship builder is not 6");
+            throw SpaceShipBParamCountError("Count of params in spaceship builder is not 6");
         auto sps = new SpaceShip(efs, mass, fuel_cost, R, V, AVec);
         return sps;
     }
@@ -512,25 +408,5 @@ protected:
     bool is_engine_active;
     int count_of_params{0};
 };
-//-----------------------------------------------------------------------------------------------------------//
-class PirateShip : public SpaceShip {
-public:
-    /*!
-     * Moves pirate's spaceship for "time" time
-     * It moves down the line between to neighbour points
-     * from trajectory. If no points left flies in reversed order
-     * till the firs point is reached
-     * @param time    time of moving
-     */
-    void move_ship(double time) final;
 
-
-private:
-    /*!
-     * @param trajectory array of coords between which spaceship travels
-     * @param head_cost  how much money can ypu earn from killing this ship
-     */
-    std::vector<Vector> trajectory{};
-    int head_cost{0};
-};
 #endif //SPACESHIP_SPACESHIP_H
