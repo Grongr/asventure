@@ -4,7 +4,7 @@ project(main)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(main main.cpp spaceship.h unitests.h spaceship.cpp unitests.cpp)
+add_executable(main Main.cpp spaceship.h unitests.h spaceship.cpp unitests.cpp Drawing.cpp Drawing.h InitShip.h Interface.cpp Interface.h)
 
 find_package(SFML 2.5 COMPONENTS graphics audio window system REQUIRED)
 
