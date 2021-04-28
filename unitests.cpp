@@ -4,7 +4,6 @@
 
 #include "unitests.h"
 #include "geometricvector.h"
-#include "policeship.h"
 #include "spaceship.h"
 
 #include <cmath>
