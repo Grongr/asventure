@@ -8,4 +8,5 @@ add_executable(main main.cpp spaceship.h spaceship.cpp
                     sps_errors.h
                     geometricvector.h geometricvector.cpp
                     pirateship.cpp pirateship.h
+                    policeship.cpp policeship.h
                     doublecmp.h doublecmp.cpp)

@@ -377,7 +377,7 @@ public:
     SpaceShipBuilder(Vector const& R, Vector const& V, Vector const& AVec,
                      double mass, double fuel_cost, bool is_engine_active)
         : R{R}, V{V}, AVec{AVec}, mass{mass}, fuel_cost{mass},
-          is_engine_active{is_engine_active}, count_of_params{5} {}
+          is_engine_active{is_engine_active}, count_of_params{6} {}
 
     /*
      *  List of functions which could be used to set params of spaceship

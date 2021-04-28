@@ -24,13 +24,15 @@ public:
 
     /*!
      * Constructor which could initialize all coordinates
-     * @param x
-     * @param y
-     * @param z
+     * @param x x coordinate of a new vector
+     * @param y y coordinate of a new vector
      */
     Vector(double x, double y) : x{x}, y{y} { }
 
     /*!
+     * If you wanna know the length or the absolute value
+     * of this vector
+     *
      * @return the length of a vector
      */
     [[nodiscard]] double length() const { return sqrt(x * x + y * y); }
@@ -76,9 +78,18 @@ public:
      */
     bool operator== (Vector const& r) const;
 
-    //TODO: Delete this shit
+    /*!
+     * Do you wanna the x coordinate of this Vector???
+     * @return the x coordinate of this Vector
+     */
     [[nodiscard]] double x_pos() const { return x; }
+
+    /*!
+     * Do you wanna the y coordinate of this Vector???
+     * @return the y coordinate of this Vector
+     */
     [[nodiscard]] double y_pos() const { return y; }
+
     /*!
      * How to integrate one vector into another
      * @param p

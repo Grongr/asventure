@@ -82,4 +82,10 @@ public:
      explicit PirateShipBParamCountError(std::string error) : SpaceShipBParamCountError(error) {}
 };
 
+class PoliceShipBParamCountError : public SpaceShipBParamCountError {
+public:
+
+    explicit PoliceShipBParamCountError(std::string error) : SpaceShipBParamCountError(error) {}
+};
+
 #endif //ASVERGIN_SPS_ERRORS_H
