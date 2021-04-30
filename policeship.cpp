@@ -1,11 +1,15 @@
 #include "policeship.h"
 #include "doublecmp.h"
 #include "geometricvector.h"
+#include "sps_errors.h"
 
 #include <cmath>
 
 
 void PoliceShip::move_along_circle(double time) {
+    if (is_less(time, 0))
+        throw WrongTimeValue("Time cannot be less than zero in PoliceShip::move_along_cercle() method");
+
     auto radius_vector = [&] () {
         return (this->R - this->center_coords);
     };
@@ -22,12 +26,22 @@ void PoliceShip::move_along_circle(double time) {
     k *= k;
 
     double L = this->V.length();
-    L *= L;
     
-    y  = -k + std::sqrt(k*k - L);
-    y /= 2;
+    y = L / std::sqrt( k + 1 );
+    x = y * std::sqrt( k );
 
-    x = -k * y;
+    auto ans = [&] (double ax, double ay) {
+        return is_equal((ax * _x) + (ay * _y), 0);
+    };
 
-    this->V = Vector(x, y);
+    if      (ans( x,  y)) { this->V = Vector( x,  y); }
+    else if (ans( x, -y)) { this->V = Vector( x, -y); }
+    else if (ans(-x,  y)) { this->V = Vector(-x,  y); }
+    else if (ans(-x, -y)) { this->V = Vector(-x, -y); }
+    else {
+        throw BadXYValue("None answere was correct in move_along_cirle method");
+    }
+
+    std::cout << V.x_pos() << " " << V.y_pos() << std::endl;
+    std::cout << r.x_pos() << " " << r.y_pos() << std::endl << std::endl;
 }

@@ -1,5 +1,5 @@
 #ifndef POLICESHIP_ASVENTURE
-#define POLICESJIP_ASVENTURE
+#define POLICESHIP_ASVENTURE
 
 #include "geometricvector.h"
 #include "pirateship.h"

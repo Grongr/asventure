@@ -3,9 +3,14 @@
 //
 
 #include "pirateship.h"
+#include "doublecmp.h"
+#include "sps_errors.h"
 
 //-----------------------------------------------------------------------------------------------------------//
 void PirateShip::move_ship_forward(double time, double speed_const) {
+    if (is_less(time, 0))
+        throw WrongTimeValue("Time cannot be less than zero in PirateShip::move_ship_forward() methid");
+
     //TODO: Optimisation
     double needed_time = 0;
 

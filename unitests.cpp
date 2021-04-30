@@ -16,12 +16,12 @@
                                                                                \
         sps.toggle_engine();                                                   \
         sps.move_ship(TIME);                                                   \
-        check_unit_test(TestNum, sps.get_position(), RRes);           \
+        check_unit_test(TestNum, sps.get_position(), RRes);                    \
     }
 
 bool check_unit_test(int test_num, Vector const& R0, Vector const& R) {
     if (R0 != R) {
-        std::cout << "Spaceship move method test number " << test_num << " not passed!" << std::endl;
+        std::cout << "Test number " << test_num << " not passed!" << std::endl;
 
         std::cout << "The vector that we got" << std::endl;
         R0.print_vector();
@@ -30,13 +30,27 @@ bool check_unit_test(int test_num, Vector const& R0, Vector const& R) {
 
         return false;
     } else {
-        std::cout << "Spaceship move method test number " << test_num << " passed correctly :)" << std::endl;
+        std::cout << "Test number " << test_num << " passed correctly :)" << std::endl;
         return true;
     } }
 
 void sps_move_unit_test() {
     {
-        EnergyFuelSystemBuilder builder(10, 1000.0, 1, 1, 10000);
+        EnergyFuelSystemBuilder builder;
+        builder.set_size_of_bat_arr(10);
+        builder.set_bat_energy(1000);
+        builder.set_fu(1);
+        builder.set_fQ(1);
+        builder.set_fmv(10000);
+        
+        SpaceShipBuilder sbuilder;
+        sbuilder.set_R(Vector(0, 20));
+        sbuilder.set_V(Vector(10, 0));
+        sbuilder.set_AVec(Vector(0, -10));
+        sbuilder.set_mass(10000);
+        sbuilder.set_fuel_cost(1.0);
+        sbuilder.set_is_engine_active(true);
+
         TEST(1, Vector(0, 20), Vector(10, 0), Vector(0, -10),
              builder, 10000, 1.0, 2.0, Vector(20, 0))
     }
@@ -83,8 +97,10 @@ void pirate_ship_move_unit_test() {
         pbl.add_point(Vector(0, 2));
         pbl.add_point(Vector(1, 2));
 
-        PirateShip psh = *(pbl.make_pirate_ship(builder));
+        auto ptr = pbl.make_pirate_ship(builder);
+        PirateShip psh = *ptr;
         TEST(4, psh, 3, Vector(1, 2))
+        delete ptr;
     }
     // Test 5
     {
@@ -95,8 +111,10 @@ void pirate_ship_move_unit_test() {
         pbl.add_point(Vector(0, 5));
         pbl.add_point(Vector(0, 0));
 
-        PirateShip psh = *(pbl.make_pirate_ship(builder));
+        auto ptr = pbl.make_pirate_ship(builder);
+        PirateShip psh = *ptr;
         TEST(5, psh, 6, Vector(0, 4))
+        delete ptr;
     }
     // Test 6
     {
@@ -107,8 +125,10 @@ void pirate_ship_move_unit_test() {
         pbl.add_point(Vector(0, 5));
         pbl.add_point(Vector(0, 0));
 
-        PirateShip psh = *(pbl.make_pirate_ship(builder));
+        auto ptr = pbl.make_pirate_ship(builder);
+        PirateShip psh = *ptr;
         TEST(6, psh, 10, Vector(0, 0))
+        delete ptr;
     }
     // Test 7
     {
@@ -119,12 +139,10 @@ void pirate_ship_move_unit_test() {
         pbl.add_point(Vector(0, 5));
         pbl.add_point(Vector(0, 1));
 
-        PirateShip psh = *(pbl.make_pirate_ship(builder));
-        try {
-            TEST(7, psh, 11, Vector(0, 1))
-        } catch(ZeroSpeedError& err) {
-            std::cout << "In test 4: " << err.what() << std::endl;
-        }
+        auto ptr = pbl.make_pirate_ship(builder);
+        PirateShip psh = *ptr;
+        TEST(7, psh, 11, Vector(0, 1))
+        delete ptr;
     }
     // Test 8 - 10
     {
@@ -136,16 +154,26 @@ void pirate_ship_move_unit_test() {
         pbl.add_point(Vector(0, 1));
 
         
-        PirateShip psh = *(pbl.make_pirate_ship(builder));
+        auto ptr = pbl.make_pirate_ship(builder);
+        PirateShip psh = *ptr;
         TEST( 8, psh, 4, Vector(0, 4))
         TEST( 9, psh, 4, Vector(0, 2))
         TEST(10, psh, 4, Vector(0, 2))
+        delete ptr;
     }
 }
 
 #undef TEST
 
-#define TEST(test_num, polsh, time, RRes)
+#define TEST(test_num, polsh, time, RRes)                       \
+    {                                                           \
+        while(time > 0) {                                       \
+            polsh->move_along_circle(0.1);                      \
+            time -= 0.1;                                        \
+        }                                                       \
+                                                                \
+        check_unit_test(test_num, polsh->get_position(), RRes); \
+    }
 
 void make_standart_police_ship(PoliceShipBuilder &builder) {
     builder.set_fuel_cost(0);
@@ -167,7 +195,10 @@ void police_ship_move_unit_test() {
         pbl.set_radius(cr.length());
         pbl.set_V(Vector(0, 1));
 
-        auto polsh = pbl.make_police_ship(builder);
-        TEST(11, polsh, , Vector(1, 0))       
+        auto* polsh = pbl.make_police_ship(builder);
+        double time = cr.length() * pi();
+        TEST(11, polsh, time, Vector(1, 1))       
     }
 }
+
+#undef TEST

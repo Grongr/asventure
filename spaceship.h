@@ -158,6 +158,11 @@ class EnergyFuelSystem {
 public:
 
     /*!
+     * Default constructor with no params
+     */
+    EnergyFuelSystem() : full_energy{0}, bat{0}, tank{0, 0, 0, 0} {}
+
+    /*!
      * This constructor could be used to create engine system
      * It makes a lot of identical batteries and one full of
      * fuel FuelTank
@@ -255,6 +260,8 @@ public:
         return efs;
     }
 
+    virtual ~EnergyFuelSystemBuilder() = default;
+
 };
 //-----------------------------------------------------------------------------------------------------------//
 /*!
@@ -272,18 +279,11 @@ public:
      */
     SpaceShip(EnergyFuelSystemBuilder const &builder, double mass, double fuel_cost,
               Vector R, Vector V, Vector a_vec)
-            : mass{mass}, R{R}, efs(*builder.make_efs()), fuel_cost{fuel_cost}, V{V}, AVec{a_vec} {}
-
-    /*!
-     * Constructor without initialization of Radius
-     * @param mass
-     * @param fuel
-     */
-    SpaceShip(EnergyFuelSystemBuilder const& builder, double mass, double fuel_cost):
-            mass{mass}, R{0, 0},
-            V{0, 0},
-            fuel_cost{fuel_cost},
-            efs(*builder.make_efs()) {}
+        : mass{mass}, R{R}, fuel_cost{fuel_cost}, V{V}, AVec{a_vec} {
+            auto ptr = builder.make_efs();
+            this->efs = *ptr;
+            delete ptr;
+        }
 
     /*!
      * Changed direction of acceleration to new_dir
@@ -401,6 +401,8 @@ public:
         auto sps = new SpaceShip(efs, mass, fuel_cost, R, V, AVec);
         return sps;
     }
+
+    virtual ~SpaceShipBuilder() = default;
 
 protected:
     Vector R{}, V{}, AVec{};

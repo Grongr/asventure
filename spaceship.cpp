@@ -4,9 +4,15 @@
 
 #include <iostream>
 #include "spaceship.h"
+#include "doublecmp.h"
+#include "sps_errors.h"
 
 //-----------------------------------------------------------------------------------------------------------//
 void SpaceShip::move_ship(double time) {
+
+    if (is_less(time, 0))
+        throw WrongTimeValue("Time cannot be less than zero in move_ship() method!!!");
+
     if (this->is_engine_active) {
         double needed_fuel = time * fuel_cost;
 

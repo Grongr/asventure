@@ -9,6 +9,42 @@
 #include <string>
 
 //-----------------------------------------------------------------------------------------------------------//
+class BadXYValue : public std::exception {
+public:
+
+    /*!
+     * Constructor to inicialize an error param
+     */
+    explicit BadXYValue(std::string error) : error(std::move(error)) {}
+
+    /*!
+     * Methos which helps us to understand why this error was thrown
+     * @return error massage
+     */
+    [[nodiscard]] const char* what() const noexcept final { return error.c_str(); }
+private:
+    std::string error;
+};
+//-----------------------------------------------------------------------------------------------------------//
+class WrongTimeValue : public std::exception {
+public:
+
+    /*!
+     * Constructor that inicialises an error param
+     * @param error massage
+     */
+    explicit WrongTimeValue(std::string error) : error(std::move(error)) {}
+
+    /*!
+     * Method which helps us to undarstand what threw this error
+     * @return this error private param
+     */
+    [[nodiscard]] const char* what() const noexcept final { return error.c_str(); }
+
+private:
+    std::string error;
+};
+//-----------------------------------------------------------------------------------------------------------//
 /*!
  * Error which is thrown when count given of params of EFS builder is not 5
  */

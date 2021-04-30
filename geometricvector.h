@@ -12,6 +12,12 @@
 #define DEBUG
 //-----------------------------------------------------------------------------------------------------------//
 /*!
+ * Calculating a pi number
+ * @return a pi number
+ */
+constexpr double pi() { return std::atan(1)*4; }
+//-----------------------------------------------------------------------------------------------------------//
+/*!
  * Geometric representation of a vector in 2D space
  */
 class Vector {
@@ -105,6 +111,8 @@ public:
     void print_vector() const;
 
 #endif // DEBUG
+
+    ~Vector() = default;
 
 protected:
     /*!
