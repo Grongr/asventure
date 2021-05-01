@@ -10,6 +10,7 @@
 #include "sps_errors.h"
 #include "geometricvector.h"
 
+#include <memory>
 #include <vector>
 #include <string>
 #include <cmath>
@@ -253,10 +254,10 @@ public:
      * This method should be used to make Energy Fuel System
      * @return pointer to
      */
-    [[nodiscard]] EnergyFuelSystem* make_efs() const {
+    [[nodiscard]] std::unique_ptr<EnergyFuelSystem> make_efs() const {
         if (count_of_setted_params != 5)
             throw EFSParamCountError("Count of params of Energy fuel system is not 5");
-        auto efs = new EnergyFuelSystem(size_of_bat_arr, battery_energy, fu, fQ, fmv);
+        std::unique_ptr<EnergyFuelSystem> efs(new EnergyFuelSystem(size_of_bat_arr, battery_energy, fu, fQ, fmv));
         return efs;
     }
 
@@ -279,11 +280,7 @@ public:
      */
     SpaceShip(EnergyFuelSystemBuilder const &builder, double mass, double fuel_cost,
               Vector R, Vector V, Vector a_vec)
-        : mass{mass}, R{R}, fuel_cost{fuel_cost}, V{V}, AVec{a_vec} {
-            auto ptr = builder.make_efs();
-            this->efs = *ptr;
-            delete ptr;
-        }
+        : mass{mass}, R{R}, efs{*(builder.make_efs())}, fuel_cost{fuel_cost}, V{V}, AVec{a_vec} {}
 
     /*!
      * Changed direction of acceleration to new_dir
@@ -395,10 +392,10 @@ public:
      * @param efs  EFSBuilder object
      * @return     pointer to created Spaceship object
      */
-    [[nodiscard]] virtual SpaceShip* make_spaceship(EnergyFuelSystemBuilder const& efs) {
+    [[nodiscard]] virtual std::unique_ptr<SpaceShip> make_spaceship(EnergyFuelSystemBuilder const& efs) {
         if (count_of_params != 6)
             throw SpaceShipBParamCountError("Count of params in spaceship builder is not 6");
-        auto sps = new SpaceShip(efs, mass, fuel_cost, R, V, AVec);
+        std::unique_ptr<SpaceShip> sps(new SpaceShip(efs, mass, fuel_cost, R, V, AVec));
         return sps;
     }
 

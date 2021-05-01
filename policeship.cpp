@@ -34,6 +34,9 @@ void PoliceShip::move_along_circle(double time) {
         return is_equal((ax * _x) + (ay * _y), 0);
     };
 
+    /*
+     * Check what answere is correct one
+     */
     if      (ans( x,  y)) { this->V = Vector( x,  y); }
     else if (ans( x, -y)) { this->V = Vector( x, -y); }
     else if (ans(-x,  y)) { this->V = Vector(-x,  y); }
@@ -41,7 +44,4 @@ void PoliceShip::move_along_circle(double time) {
     else {
         throw BadXYValue("None answere was correct in move_along_cirle method");
     }
-
-    std::cout << V.x_pos() << " " << V.y_pos() << std::endl;
-    std::cout << r.x_pos() << " " << r.y_pos() << std::endl << std::endl;
 }

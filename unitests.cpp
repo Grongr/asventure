@@ -100,7 +100,6 @@ void pirate_ship_move_unit_test() {
         auto ptr = pbl.make_pirate_ship(builder);
         PirateShip psh = *ptr;
         TEST(4, psh, 3, Vector(1, 2))
-        delete ptr;
     }
     // Test 5
     {
@@ -114,7 +113,6 @@ void pirate_ship_move_unit_test() {
         auto ptr = pbl.make_pirate_ship(builder);
         PirateShip psh = *ptr;
         TEST(5, psh, 6, Vector(0, 4))
-        delete ptr;
     }
     // Test 6
     {
@@ -128,7 +126,6 @@ void pirate_ship_move_unit_test() {
         auto ptr = pbl.make_pirate_ship(builder);
         PirateShip psh = *ptr;
         TEST(6, psh, 10, Vector(0, 0))
-        delete ptr;
     }
     // Test 7
     {
@@ -142,7 +139,6 @@ void pirate_ship_move_unit_test() {
         auto ptr = pbl.make_pirate_ship(builder);
         PirateShip psh = *ptr;
         TEST(7, psh, 11, Vector(0, 1))
-        delete ptr;
     }
     // Test 8 - 10
     {
@@ -159,7 +155,6 @@ void pirate_ship_move_unit_test() {
         TEST( 8, psh, 4, Vector(0, 4))
         TEST( 9, psh, 4, Vector(0, 2))
         TEST(10, psh, 4, Vector(0, 2))
-        delete ptr;
     }
 }
 
@@ -168,8 +163,8 @@ void pirate_ship_move_unit_test() {
 #define TEST(test_num, polsh, time, RRes)                       \
     {                                                           \
         while(time > 0) {                                       \
-            polsh->move_along_circle(0.1);                      \
-            time -= 0.1;                                        \
+            polsh->move_along_circle(0.0001);                   \
+            time -= 0.0001;                                     \
         }                                                       \
                                                                 \
         check_unit_test(test_num, polsh->get_position(), RRes); \
@@ -195,7 +190,7 @@ void police_ship_move_unit_test() {
         pbl.set_radius(cr.length());
         pbl.set_V(Vector(0, 1));
 
-        auto* polsh = pbl.make_police_ship(builder);
+        auto polsh = pbl.make_police_ship(builder);
         double time = cr.length() * pi();
         TEST(11, polsh, time, Vector(1, 1))       
     }

@@ -6,6 +6,8 @@
 #include "spaceship.h"
 #include "sps_errors.h"
 
+#include <memory>
+
 //-----------------------------------------------------------------------------------------------------------//
 class PoliceShip : public SpaceShip {
 public:
@@ -25,8 +27,9 @@ public:
 
 private:
     /*!
-     * Center coords is radius vector of where the circle trajectory centre is
-     * Radius of a trajectory circle
+     * @param center_coords Center coords is radius vector of where the circle trajectory centre is
+     * @param radius Radius of a trajectory circle
+     * @param angV   angle velocity of police ship
      */
     Vector center_coords;
     double radius;
@@ -54,11 +57,11 @@ public:
      * @param efs  builder of energy fuel system of future  ship
      * @return pointer to created ship
      */
-    PoliceShip* make_police_ship(EnergyFuelSystemBuilder const& efs) {
+    std::unique_ptr<PoliceShip> make_police_ship(EnergyFuelSystemBuilder const& efs) {
         if (count_of_params != 8)
             throw PoliceShipBParamCountError("Count of params of police ship builder is not 8");
-        auto polsh = new PoliceShip(efs, mass, fuel_cost, R,
-                                    V, AVec, center_coords, radius);
+        std::unique_ptr<PoliceShip> polsh(new PoliceShip(efs, mass, fuel_cost, R,
+                                    V, AVec, center_coords, radius));
         return polsh;
     }
 

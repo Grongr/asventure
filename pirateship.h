@@ -9,6 +9,7 @@
 #include "sps_errors.h"
 
 #include <iostream>
+#include <memory>
 #include <string>
 #include <list>
 
@@ -111,11 +112,11 @@ public:
      * @param efs  EFSBuilder object
      * @return     pointer to created PirateShip object
      */
-    [[nodiscard]] PirateShip* make_pirate_ship(EnergyFuelSystemBuilder const& efs) {
+    [[nodiscard]] std::unique_ptr<PirateShip> make_pirate_ship(EnergyFuelSystemBuilder const& efs) {
         if (count_of_params != 8)
             throw PirateShipBParamCountError("Count of params of pirate ship builder is not 8");
-        auto psh = new PirateShip(efs, mass, fuel_cost, R,
-                                   V, AVec, trajectory, head_cost);
+        std::unique_ptr<PirateShip> psh(new PirateShip(efs, mass, fuel_cost, R,
+                                   V, AVec, trajectory, head_cost));
         psh->it = (++psh->begin());
         return psh;
     }
