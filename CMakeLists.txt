@@ -13,7 +13,7 @@ add_executable(main main.cpp
                     doublecmp.h doublecmp.cpp
                     drawship.h drawship.cpp
                     interface.h interface.cpp
-                    init.h)
+                    init.h menu.h)
 find_package(SFML 2.5 COMPONENTS graphics audio window system REQUIRED)
 
 target_link_libraries(main sfml-graphics sfml-window sfml-system sfml-audio)

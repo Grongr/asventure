@@ -6,6 +6,7 @@
 #include "spaceship.h"
 #include <memory>
 #include "interface.h"
+#include "menu.h"
 
 
 int main() 
@@ -32,6 +33,8 @@ int main()
     
     // Init user interaction
     Interface interface;
+
+    menu(window);
 
     while (window.isOpen())
     {
