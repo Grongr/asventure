@@ -18,8 +18,11 @@ int main()
     DrawShip drawship;
     
     // Sprite for ship
-    sf::RectangleShape shape1(sf::Vector2f(32.f, 32.f));
-    shape1.setFillColor(sf::Color::Red);
+    //sf::RectangleShape shape1(sf::Vector2f(32.f, 32.f));
+    //shape1.setFillColor(sf::Color::Red);
+    sf::Texture shipTexture;
+    shipTexture.loadFromFile("../images/ships/ship1.png");
+    sf::Sprite ship(shipTexture);
     
     // Engine is active (can be activated in params of builder also)
     drawship.GetShip()->toggle_engine();
@@ -28,13 +31,21 @@ int main()
     DrawPirateShip drawpirateship;
 
     // Sprite for pirate ship
-    sf::RectangleShape shape2(sf::Vector2f(32.f, 32.f));
-    shape2.setFillColor(sf::Color::Blue);
+    //sf::RectangleShape shape2(sf::Vector2f(32.f, 32.f));
+    //shape2.setFillColor(sf::Color::Blue);
+    sf::Texture pirateTexture;
+    pirateTexture.loadFromFile("../images/ships/ship2.png");
+    sf::Sprite pirateship(pirateTexture);
     
     // Init user interaction
     Interface interface;
 
     menu(window);
+    
+    sf::Texture backTexture;
+    backTexture.loadFromFile("../images/interface/background.png");
+    sf::Sprite background(backTexture);
+    background.setPosition(0, 0);
 
     while (window.isOpen())
     {
@@ -61,16 +72,17 @@ int main()
         drawship.MoveShip(time);
 
         // Drawing ship
-        shape1.setPosition((drawship.GetRect()).left, (drawship.GetRect()).top);
+        ship.setPosition((drawship.GetRect()).left, (drawship.GetRect()).top);
         
         // Drawing pirate ship
-        shape2.setPosition((drawpirateship.GetRect()).left, (drawpirateship.GetRect()).top);
+        pirateship.setPosition((drawpirateship.GetRect()).left, (drawpirateship.GetRect()).top);
         //std::cout << (drawpirateship.GetRect()).left << " " << (drawpirateship.GetRect()).top;
 
         // Reset
         window.clear();
-        window.draw(shape1);
-        window.draw(shape2);
+        window.draw(background);
+        window.draw(ship);
+        window.draw(pirateship);
     	window.display();
     }
 	
