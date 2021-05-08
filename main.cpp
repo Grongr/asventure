@@ -7,6 +7,7 @@
 #include <memory>
 #include "interface.h"
 #include "menu.h"
+#include "view.h"
 
 
 int main() 
@@ -14,12 +15,13 @@ int main()
     // Rendering window
     sf::RenderWindow window(sf::VideoMode(1680, 1050), "asventure");
     
+    // Init camera view to follow your ship
+    Camera camera;
+    
     // Here the ship is building
     DrawShip drawship;
     
     // Sprite for ship
-    //sf::RectangleShape shape1(sf::Vector2f(32.f, 32.f));
-    //shape1.setFillColor(sf::Color::Red);
     sf::Texture shipTexture;
     shipTexture.loadFromFile("../images/ships/ship1.png");
     sf::Sprite ship(shipTexture);
@@ -31,8 +33,6 @@ int main()
     DrawPirateShip drawpirateship;
 
     // Sprite for pirate ship
-    //sf::RectangleShape shape2(sf::Vector2f(32.f, 32.f));
-    //shape2.setFillColor(sf::Color::Blue);
     sf::Texture pirateTexture;
     pirateTexture.loadFromFile("../images/ships/ship2.png");
     sf::Sprite pirateship(pirateTexture);
@@ -67,6 +67,7 @@ int main()
         }
         
         interface.QwertyInter(drawship.GetShip());
+        camera.StalkingShip(drawship.GetShip()->get_position());
 
         drawpirateship.MoveShip(time, 100);
         drawship.MoveShip(time);
@@ -79,6 +80,7 @@ int main()
         //std::cout << (drawpirateship.GetRect()).left << " " << (drawpirateship.GetRect()).top;
 
         // Reset
+        window.setView(camera.getView());
         window.clear();
         window.draw(background);
         window.draw(ship);
