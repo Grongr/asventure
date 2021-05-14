@@ -28,5 +28,5 @@ void Interface::QwertyInter(std::shared_ptr<SpaceShip> ship)
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 		{
 			ship->set_velocity(Vector(0, 0.1) + (ship->get_velocity()));
-		}
+        }
 }

@@ -1,3 +1,6 @@
+#ifndef VIEW_H
+#define VIEW_H
+
 #include <SFML/Graphics.hpp>
 #include "geometricvector.h"
 
@@ -21,3 +24,5 @@ class Camera
             camera_view.setCenter(vec.x_pos(), vec.y_pos());
         }
 };
+
+#endif // VIEW_H

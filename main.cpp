@@ -8,7 +8,9 @@
 #include "interface.h"
 #include "menu.h"
 #include "view.h"
-
+#include "background.h"
+#include "collision.h"
+#include "quests.h"
 
 int main() 
 {
@@ -24,13 +26,14 @@ int main()
     // Sprite for ship
     sf::Texture shipTexture;
     shipTexture.loadFromFile("../images/ships/ship1.png");
-    sf::Sprite ship(shipTexture);
+    sf::Sprite ship(shipTexture); 
     
     // Engine is active (can be activated in params of builder also)
     drawship.GetShip()->toggle_engine();
     
     // Pirate ship is building
     DrawPirateShip drawpirateship;
+    Quest quest;
 
     // Sprite for pirate ship
     sf::Texture pirateTexture;
@@ -42,10 +45,12 @@ int main()
 
     menu(window);
     
-    sf::Texture backTexture;
+    /*sf::Texture backTexture; // <--------------- this works but background is limited
     backTexture.loadFromFile("../images/interface/background.png");
     sf::Sprite background(backTexture);
-    background.setPosition(0, 0);
+    background.setPosition(0, 0);*/
+    
+    Background background; // <--------------- this matrix doesn't work
 
     while (window.isOpen())
     {
@@ -66,8 +71,13 @@ int main()
                 window.close();
         }
         
+        // User interaction
         interface.QwertyInter(drawship.GetShip());
+
+        // Moving camera
         camera.StalkingShip(drawship.GetShip()->get_position());
+
+        Collision(drawship.GetShip(), drawpirateship.GetShip(), &quest);
 
         drawpirateship.MoveShip(time, 100);
         drawship.MoveShip(time);
@@ -82,7 +92,10 @@ int main()
         // Reset
         window.setView(camera.getView());
         window.clear();
-        window.draw(background);
+
+        background.DrawBack(window);
+        //window.draw(background);
+
         window.draw(ship);
         window.draw(pirateship);
     	window.display();

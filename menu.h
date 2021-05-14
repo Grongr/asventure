@@ -1,3 +1,6 @@
+#ifndef MENU_H
+#define MENU_H
+
 void menu(sf::RenderWindow& window)
 {
     sf::Texture menuTexture1, menuTexture2, menuTexture3, manualTexture, menuBackground;
@@ -57,3 +60,5 @@ void menu(sf::RenderWindow& window)
          window.display();
     }
 }
+
+#endif // MENU_H

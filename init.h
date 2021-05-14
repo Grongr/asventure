@@ -32,7 +32,7 @@ auto InitSS()
 	ssb.set_fuel_cost(1);
 	ssb.set_is_engine_active(false);
 	ssb.set_AVec(Vector(0, 0));
-	ssb.set_R(Vector(0,0));
+	ssb.set_R(Vector(150,150));
 	ssb.set_V(Vector(0,0));
 	ssb.set_mass(0);
 	auto ship = ssb.make_spaceship(InitEFS());
