@@ -5,7 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include "spaceship.h"
 #include "pirateship.h"
-//#include "init.h"
+#include "init.h"
 
 /*
  * This class contains funcs to draw SpaceShip.

@@ -40,4 +40,8 @@ bool Vector::operator==(const Vector &r) const {
 
 void Vector::print_vector() const {
     std::cout << this->x << " " << this->y << std::endl;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> master

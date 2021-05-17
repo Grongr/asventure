@@ -41,6 +41,7 @@ void PirateShip::move_ship_forward(double time, double speed_const) {
 
         }
         this->R = this->R + this->V * time;
+    } else {
+        it = trajectory.begin();
     }
-
 }

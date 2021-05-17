@@ -38,7 +38,6 @@ public:
     /*!
      * If you wanna know the length or the absolute value
      * of this vector
-     *
      * @return the length of a vector
      */
     [[nodiscard]] double length() const { return sqrt(x * x + y * y); }
