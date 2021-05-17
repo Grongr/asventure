@@ -289,6 +289,12 @@ public:
     void set_accel_direction(Vector new_dir) { this->AVec = new_dir; }
 
     /*!
+     * Method to change velocity :)
+     * @param V - new Velocity
+     */
+    void set_velocity(Vector V) { this->V = V; }
+
+    /*!
      * Changing radius vector of space ship while it is moving for <time>
      * @param time
      */
