@@ -48,17 +48,19 @@ public:
      */
     std::list<Vector>::iterator begin() { return trajectory.begin(); }
 
+#ifdef DEBUG
     void print_trajectory() const {
         for (const auto& i : trajectory)
             std::cout << "{ " << i.x_pos() << " " << i.y_pos() << " }, ";
         std::cout << std::endl;
     }
+#endif // DEBUG
 
     //! Iterator to point in trajectory to which ship is moving right now
     std::list<Vector>::iterator it;
 private:
     /*!
-     * @param trajectory array of coords between which spaceship travels
+     * @param trajectory array of coords between which spaceship travels ( it should not be changed )
      * @param head_cost  how much money can ypu earn from killing this ship
      */
     std::list<Vector> trajectory{};
