@@ -60,10 +60,10 @@ public:
      * @param efs  builder of energy fuel system of future  ship
      * @return pointer to created ship
      */
-    std::unique_ptr<PoliceShip> make_police_ship(EnergyFuelSystemBuilder const& efs) {
+    std::shared_ptr<PoliceShip> make_police_ship(EnergyFuelSystemBuilder const& efs) {
         if (count_of_params != 9)
             throw PoliceShipBParamCountError("Count of params of police ship builder is not 9");
-        std::unique_ptr<PoliceShip> polsh(new PoliceShip(efs, mass, fuel_cost, R,
+        std::shared_ptr<PoliceShip> polsh(new PoliceShip(efs, mass, fuel_cost, R,
                                     V, AVec, center_coords, radius, angV));
         return polsh;
     }

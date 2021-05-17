@@ -254,10 +254,10 @@ public:
      * This method should be used to make Energy Fuel System
      * @return pointer to
      */
-    [[nodiscard]] std::unique_ptr<EnergyFuelSystem> make_efs() const {
+    [[nodiscard]] std::shared_ptr<EnergyFuelSystem> make_efs() const {
         if (count_of_setted_params != 5)
             throw EFSParamCountError("Count of params of Energy fuel system is not 5");
-        std::unique_ptr<EnergyFuelSystem> efs(new EnergyFuelSystem(size_of_bat_arr, battery_energy, fu, fQ, fmv));
+        std::shared_ptr<EnergyFuelSystem> efs(new EnergyFuelSystem(size_of_bat_arr, battery_energy, fu, fQ, fmv));
         return efs;
     }
 
@@ -288,10 +288,11 @@ public:
      */
     void set_accel_direction(Vector new_dir) { this->AVec = new_dir; }
     
-    /*
-     * Changing velocity to new_vel
+    /*!
+     * Method to change velocity :)
+     * @param V - new Velocity
      */
-    void set_velocity(Vector new_vel) { this->V = new_vel; }
+    void set_velocity(Vector V) { this->V = V; }
 
     /*!
      * Changing radius vector of space ship while it is moving for <time>
@@ -397,10 +398,10 @@ public:
      * @param efs  EFSBuilder object
      * @return     pointer to created Spaceship object
      */
-    [[nodiscard]] virtual std::unique_ptr<SpaceShip> make_spaceship(EnergyFuelSystemBuilder const& efs) {
+    [[nodiscard]] virtual std::shared_ptr<SpaceShip> make_spaceship(EnergyFuelSystemBuilder const& efs) {
         if (count_of_params != 6)
             throw SpaceShipBParamCountError("Count of params in spaceship builder is not 6");
-        std::unique_ptr<SpaceShip> sps(new SpaceShip(efs, mass, fuel_cost, R, V, AVec));
+        std::shared_ptr<SpaceShip> sps(new SpaceShip(efs, mass, fuel_cost, R, V, AVec));
         return sps;
     }
 

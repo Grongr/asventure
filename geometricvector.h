@@ -120,4 +120,30 @@ protected:
     double x, y;
 };
 
+//-----------------------------------------------------------------------------------------------------------//
+
+/*!
+ * Calculates scalar multiplication of two vectors
+ * @param a first Vector
+ * @param b second Vector
+ * @return real scalar multiplication (a, b)
+ */
+[[nodiscard]] double dot(Vector const& a, Vector const& b);
+
+/*!
+ * Checks if two vectors are kolliniar
+ * @param a first Vector
+ * @param b second Vector
+ * @return true if vectors a and b are kolliniar, false if not
+ */
+[[nodiscard]] bool is_koll(Vector const& a, Vector const& b);
+
+/*!
+ * If you wanna know the angle between two vectors
+ * @param a first Vector
+ * @param b second Vector
+ * @return angle between a and b
+ */
+[[nodiscard]] double get_angle(Vector const& a, Vector const& b);
+
 #endif //ASVERGIN_GEOMETRICVECTOR_H

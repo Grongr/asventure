@@ -6,7 +6,6 @@
 /*
  * User interaction
  */
-
 class Interface
 {
     public:

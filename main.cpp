@@ -100,5 +100,4 @@ int main()
         window.draw(pirateship);
     	window.display();
     }
-    return 0;
 }

@@ -39,8 +39,6 @@ void DrawPirateShip::MoveShip(double time, double constant)
     Vector vec = this->pirate_ship->get_position();
     this->rect.left  = vec.x_pos();
     this->rect.top   = vec.y_pos();
-    //std::cout << rect.left << " " << rect.top << std::endl;
-    //std::cout << "x = " << vec.x_pos() << " " << "y = " << vec.y_pos() << std::endl;
 }
 
 std::shared_ptr<PirateShip> DrawPirateShip::GetShip() { return this->pirate_ship; }

@@ -1,6 +1,8 @@
 #ifndef MENU_H
 #define MENU_H
 
+#include <SFML/Graphics.hpp>
+
 void menu(sf::RenderWindow& window)
 {
     sf::Texture menuTexture1, menuTexture2, menuTexture3, manualTexture, menuBackground;
