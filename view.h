@@ -2,6 +2,7 @@
 #define VIEW_H
 
 #include <SFML/Graphics.hpp>
+
 #include "geometricvector.h"
 
 class Camera

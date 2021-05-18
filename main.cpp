@@ -2,9 +2,10 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/System.hpp>
+#include <memory>
+
 #include "drawship.h"
 #include "spaceship.h"
-#include <memory>
 #include "interface.h"
 #include "menu.h"
 #include "view.h"

@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+
 #include "spaceship.h"
 #include "doublecmp.h"
 #include "sps_errors.h"

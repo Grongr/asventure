@@ -1,8 +1,9 @@
 #ifndef DRAWSHIP_H
 #define DRAWSHIP_H
 
-#include <memory>
 #include <SFML/Graphics.hpp>
+#include <memory>
+
 #include "spaceship.h"
 #include "pirateship.h"
 #include "init.h"

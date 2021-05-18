@@ -1,6 +1,7 @@
-#include "interface.h"
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
+
+#include "interface.h"
 #include "spaceship.h"
 
 /*

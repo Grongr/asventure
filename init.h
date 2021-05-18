@@ -1,9 +1,11 @@
 #ifndef INIT_H
 #define INIT_H
 
+
+#include <memory>
+
 #include "spaceship.h"
 #include "pirateship.h"
-#include <memory>
 
 /*!
  * Creates Energy Fuel System

@@ -1,7 +1,8 @@
+#include <memory>
+
 #include "init.h"
 #include "pirateship.h"
 #include "spaceship.h"
-#include <memory>
 
 EnergyFuelSystemBuilder InitEFS() {
     EnergyFuelSystemBuilder efsb;

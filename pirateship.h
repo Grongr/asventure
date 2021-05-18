@@ -5,13 +5,13 @@
 #ifndef ASVERGIN_PIRATESHIP_H
 #define ASVERGIN_PIRATESHIP_H
 
-#include "spaceship.h"
-#include "sps_errors.h"
-
 #include <iostream>
 #include <memory>
 #include <string>
 #include <list>
+
+#include "spaceship.h"
+#include "sps_errors.h"
 
 //-----------------------------------------------------------------------------------------------------------//
 class PirateShip : public SpaceShip {

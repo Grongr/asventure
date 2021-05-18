@@ -1,9 +1,10 @@
+#include <SFML/Graphics.hpp>
 #include <memory>
+
 #include "drawship.h"
 #include "spaceship.h"
 #include "pirateship.h"
 #include "init.h"
-#include <SFML/Graphics.hpp>
 
 /*========================_SpaceShip_===========================*/
 

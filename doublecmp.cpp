@@ -2,8 +2,9 @@
 // Created by grongr on 4/24/21.
 //
 
-#include "doublecmp.h"
 #include <limits>
+
+#include "doublecmp.h"
 
 bool is_equal(double x, double y) {
     return std::fabs(x - y) < std::numeric_limits<double>::epsilon();
