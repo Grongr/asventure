@@ -5,7 +5,6 @@
 #include "spaceship.h"
 #include "pirateship.h"
 #include "quests.h"
-#include "collision.h"
 
 /*
  * Communication with pirate ships
