@@ -143,5 +143,29 @@ public:
     explicit PoliceShipBParamCountError(std::string error) : SpaceShipBParamCountError(error) {}
 };
 
+//-----------------------------------------------------------------------------------------------------------//
+
+class PlanetBParamCountError : public std::exception {
+public:
+    /*!
+     * Constructir with a string param
+     * @param error - Some information about error
+     */
+    explicit PlanetBParamCountError(std::string error) : error{std::move(error)} {}
+
+    [[nodiscard]] const char* what() const noexcept final { return error.c_str(); }
+
+protected:
+    std::string error;
+};
+
+class ShoppingPlanetBParamCountError : public PlanetBParamCountError {
+public:
+    /*!
+     * Does what it does
+     */
+    explicit ShoppingPlanetBParamCountError(std::string error) : PlanetBParamCountError(error) {}
+};
+
 #endif //ASVERGIN_SPS_ERRORS_H
 

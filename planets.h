@@ -3,6 +3,8 @@
 
 #include "geometricvector.h"
 #include "spaceship.h"
+#include "sps_errors.h"
+
 #include <exception>
 #include <memory>
 
@@ -62,8 +64,8 @@ public:
      * @param fuel_cost           -  credits you need to buy one unit of fuel
      */
     ShoppingPlanet(double radius, double mass, Vector R,
-                   double battery_cost, double fuel_cost, double gun_upgrade_cost,
-                   double ammo_cost, double armor_upgrade_cost,
+                   int battery_cost, int fuel_cost, int gun_upgrade_cost,
+                   int ammo_cost, int armor_upgrade_cost,
                    int upgrade_limit) :
         Planet{radius, mass, R}, battery_cost{battery_cost}, fuel_cost{fuel_cost},
         gun_upgrade_cost{gun_upgrade_cost}, ammo_cost{ammo_cost},
@@ -74,31 +76,31 @@ public:
      * Wanna know hom much does it cost to upgrade your armor?
      * @return armor_upgrade_cost
      */
-    [[nodiscard]] double get_armor_upgrade_cost() const;
+    [[nodiscard]] int get_armor_upgrade_cost() const;
 
     /*!
      * Wanna know hom much does it cost to upgrade your gun?
      * @return gun_upgrade_cost
      */
-    [[nodiscard]] double get_gun_upgrade_cost() const;
+    [[nodiscard]] int get_gun_upgrade_cost() const;
 
     /*!
      * Wanna know hom much does it cost to buy a new battery?
      * @return battery_cost
      */
-    [[nodiscard]] double get_battery_cost() const;
+    [[nodiscard]] int get_battery_cost() const;
 
     /*!
      * Wanna know hom much does it cost to buy one unit of fuel?
      * @param fuel_cost
      */
-    [[nodiscard]] double get_fuel_cost() const;
+    [[nodiscard]] int get_fuel_cost() const;
 
     /*!
      * Wanna know hom much does it cost to buy some ammo?
      * @return ammo_cost
      */
-    [[nodiscard]] double get_ammo_cost() const;
+    [[nodiscard]] int get_ammo_cost() const;
 
     /*!
      * Wanna know your upgrade limit?
@@ -107,12 +109,12 @@ public:
     [[nodiscard]] int get_upgrade_limit() const;
 
 protected:
-    double battery_cost;
-    double fuel_cost;
-    double gun_upgrade_cost;
-    double ammo_cost;
-    double armor_upgrade_cost;
-    int    upgrade_limit;
+    int battery_cost;
+    int fuel_cost;
+    int gun_upgrade_cost;
+    int ammo_cost;
+    int armor_upgrade_cost;
+    int upgrade_limit;
 };
 
 //-----------------------------------------------------------------------------------------------------------//
@@ -176,40 +178,52 @@ class ShoppingPlanetBuilder : public PlanetBuilder {
     /*!
      * Sets armor_upgrade_cost param
      */
-    void set_armor_upgrade_cost(double auc);
+    void set_armor_upgrade_cost(int auc);
 
     /*!
      * Sets gun_upgrade_cost param
      */
-    void set_gun_upgrade_cost(double guc);
+    void set_gun_upgrade_cost(int guc);
 
     /*!
      * Sets battery_cost param
      */
-    void set_battery_cost(double batc);
+    void set_battery_cost(int batc);
 
     /*!
      * Sets fuel_cost param
      */
-    void set_fuel_cost(double fc);
+    void set_fuel_cost(int fc);
 
     /*!
      * Sets ammo_cost param
      */
-    void set_ammo_cost(double ac);
+    void set_ammo_cost(int ac);
     
     /*!
      * Sets upgrade_limit param
      */
     void set_upgrade_limit(int upglim);
 
+    /*!
+     * Maeks shared ptr to a new planet object
+     * made from this class params
+     * @return shared_ptr to a new planet object
+     */
+    [[nodiscard]] virtual std::shared_ptr<ShoppingPlanet> make_shoppingplanet() {
+        if (count_of_params != 6)
+            throw ShoppingPlanetBParamCountError("Count of set params is not 6");
+        std::shared_ptr<ShoppingPlanet> shplt(new ShoppingPlanet(radius, mass, R, battery_cost, fuel_cost, gun_upgrade_cost, ammo_cost, armor_upgrade_cost, upgrade_limit));
+        return shplt;
+    }
+
 private:
-    double armor_upgrade_cost;
-    double gun_upgrade_cost;
-    double battery_cost;
-    double fuel_cost;
-    double ammo_cost;
-       int upgrade_limit;
+    int armor_upgrade_cost;
+    int gun_upgrade_cost;
+    int battery_cost;
+    int fuel_cost;
+    int ammo_cost;
+    int upgrade_limit;
 };
 
 #endif // PLATENS_HEADER_FILE
