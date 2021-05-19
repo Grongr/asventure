@@ -25,6 +25,8 @@ void PirateShip::move_ship_forward(double time, double speed_const) {
         needed_time /= this->V.length();
     };
 
+    while ( is_equal((*it - this->R).length(), 0.0) )
+        ++it;
     time_count(it);
 
     if (it != (--trajectory.end())) {
@@ -37,10 +39,13 @@ void PirateShip::move_ship_forward(double time, double speed_const) {
             }
             time -= needed_time;
             if (is_equal(time, 0.0)) break;
+            while ( is_equal((*it - this->R).length(), 0.0) )
+                ++it;
             time_count(it);
 
         }
         this->R = this->R + this->V * time;
+    } else {
+        it = trajectory.begin();
     }
-
 }

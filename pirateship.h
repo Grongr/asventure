@@ -5,13 +5,13 @@
 #ifndef ASVERGIN_PIRATESHIP_H
 #define ASVERGIN_PIRATESHIP_H
 
-#include "spaceship.h"
-#include "sps_errors.h"
-
 #include <iostream>
 #include <memory>
 #include <string>
 #include <list>
+
+#include "spaceship.h"
+#include "sps_errors.h"
 
 //-----------------------------------------------------------------------------------------------------------//
 class PirateShip : public SpaceShip {
@@ -48,17 +48,19 @@ public:
      */
     std::list<Vector>::iterator begin() { return trajectory.begin(); }
 
+#ifdef DEBUG
     void print_trajectory() const {
         for (const auto& i : trajectory)
             std::cout << "{ " << i.x_pos() << " " << i.y_pos() << " }, ";
         std::cout << std::endl;
     }
+#endif // DEBUG
 
     //! Iterator to point in trajectory to which ship is moving right now
     std::list<Vector>::iterator it;
 private:
     /*!
-     * @param trajectory array of coords between which spaceship travels
+     * @param trajectory array of coords between which spaceship travels ( it should not be changed )
      * @param head_cost  how much money can ypu earn from killing this ship
      */
     std::list<Vector> trajectory{};
@@ -112,10 +114,10 @@ public:
      * @param efs  EFSBuilder object
      * @return     pointer to created PirateShip object
      */
-    [[nodiscard]] std::unique_ptr<PirateShip> make_pirate_ship(EnergyFuelSystemBuilder const& efs) {
+    [[nodiscard]] std::shared_ptr<PirateShip> make_pirate_ship(EnergyFuelSystemBuilder const& efs) {
         if (count_of_params != 8)
             throw PirateShipBParamCountError("Count of params of pirate ship builder is not 8");
-        std::unique_ptr<PirateShip> psh(new PirateShip(efs, mass, fuel_cost, R,
+        std::shared_ptr<PirateShip> psh(new PirateShip(efs, mass, fuel_cost, R,
                                    V, AVec, trajectory, head_cost));
         psh->it = (++psh->begin());
         return psh;

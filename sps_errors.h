@@ -31,13 +31,32 @@ public:
 
     /*!
      * Constructor that inicialises an error param
-     * @param error massage
+     * @param error  error massage
      */
     explicit WrongTimeValue(std::string error) : error(std::move(error)) {}
 
     /*!
      * Method which helps us to undarstand what threw this error
      * @return this error private param
+     */
+    [[nodiscard]] const char* what() const noexcept final { return error.c_str(); }
+
+private:
+    std::string error;
+};
+//-----------------------------------------------------------------------------------------------------------//
+class WrongAngleVelocityValue : public std::exception {
+public:
+    
+    /*!
+     * Construct that inicialises an error param
+     * @param error  error massage
+     */
+    explicit WrongAngleVelocityValue(std::string error) : error{std::move(error)} {}
+
+    /*!
+     * Method which helps us to understand what threw this error
+     * @return this error massage
      */
     [[nodiscard]] const char* what() const noexcept final { return error.c_str(); }
 
@@ -125,3 +144,4 @@ public:
 };
 
 #endif //ASVERGIN_SPS_ERRORS_H
+

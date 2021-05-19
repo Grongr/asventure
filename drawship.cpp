@@ -27,10 +27,16 @@ sf::FloatRect DrawShip::GetRect() { return this->rect; }
 
 /*========================_PirateShip_==========================*/
 
-DrawPirateShip::DrawPirateShip()
+DrawPirateShip::DrawPirateShip(std::list<Vector> trajectory, int head_cost, Vector velocity, Vector radius_vector)
 {
     this->rect = sf::FloatRect(500, 500, 32, 32);
-    this->pirate_ship = InitPS();
+    this->pirate_ship = InitPS(trajectory, head_cost, velocity, radius_vector);
+}
+
+DrawPirateShip::DrawPirateShip()
+{
+    //this->rect = sf::FloatRect(500, 500, 32, 32);
+    //this->pirate_ship = InitPS();
 }
 
 void DrawPirateShip::MoveShip(double time, double constant)

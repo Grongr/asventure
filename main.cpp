@@ -11,6 +11,8 @@
 #include "background.h"
 #include "collision.h"
 #include "quests.h"
+#include <vector>
+#include "pirates.h"
 
 int main() 
 {
@@ -32,25 +34,24 @@ int main()
     drawship.GetShip()->toggle_engine();
     
     // Pirate ship is building
-    DrawPirateShip drawpirateship;
+    
+    //DrawPirateShip drawpirateship;
+
     Quest quest;
 
     // Sprite for pirate ship
-    sf::Texture pirateTexture;
-    pirateTexture.loadFromFile("../images/ships/ship2.png");
-    sf::Sprite pirateship(pirateTexture);
+    //sf::Texture pirateTexture;
+    //pirateTexture.loadFromFile("../images/ships/ship2.png");
+    //sf::Sprite pirateship(pirateTexture);
     
     // Init user interaction
     Interface interface;
 
     menu(window);
     
-    /*sf::Texture backTexture; // <--------------- this works but background is limited
-    backTexture.loadFromFile("../images/interface/background.png");
-    sf::Sprite background(backTexture);
-    background.setPosition(0, 0);*/
-    
-    Background background; // <--------------- this matrix doesn't work
+    Background background;
+
+    Pirates pirates;
 
     while (window.isOpen())
     {
@@ -70,34 +71,37 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-        
+
         // User interaction
         interface.QwertyInter(drawship.GetShip());
 
+        Collision(drawship.GetShip(), pirates.GetPirates(),  &quest);
+
+        //drawpirateship.MoveShip(time, 100);
+        drawship.MoveShip(time);
+
         // Moving camera
         camera.StalkingShip(drawship.GetShip()->get_position());
-
-        Collision(drawship.GetShip(), drawpirateship.GetShip(), &quest);
-
-        drawpirateship.MoveShip(time, 100);
-        drawship.MoveShip(time);
 
         // Drawing ship
         ship.setPosition((drawship.GetRect()).left, (drawship.GetRect()).top);
         
         // Drawing pirate ship
-        pirateship.setPosition((drawpirateship.GetRect()).left, (drawpirateship.GetRect()).top);
+        //pirateship.setPosition((drawpirateship.GetRect()).left, (drawpirateship.GetRect()).top);
         //std::cout << (drawpirateship.GetRect()).left << " " << (drawpirateship.GetRect()).top;
-
+        
+        
         // Reset
         window.setView(camera.getView());
         window.clear();
+        
 
-        background.DrawBack(window);
-        //window.draw(background);
+        background.DrawBack(window, drawship.GetShip());
+        
+        pirates.Draw(window, time, 100, drawship.GetShip()->get_position().x_pos(), drawship.GetShip()->get_position().y_pos());
 
         window.draw(ship);
-        window.draw(pirateship);
+        //window.draw(pirateship);
     	window.display();
     }
 	

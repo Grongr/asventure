@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include "spaceship.h"
 #include "pirateship.h"
+#include "geometricvector.h"
 //#include "init.h"
 
 /*
@@ -61,6 +62,7 @@ class DrawPirateShip: public DrawShip
          * Builds PirateShip, sets params for rect
          */
         DrawPirateShip();
+        DrawPirateShip(std::list<Vector> trajectory, int head_cost, Vector velocity, Vector radius_vector);
         
         /*
          * Changes location of pirate ship in time.

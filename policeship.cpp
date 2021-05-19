@@ -9,39 +9,37 @@
 void PoliceShip::move_along_circle(double time) {
     if (is_less(time, 0))
         throw WrongTimeValue("Time cannot be less than zero in PoliceShip::move_along_cercle() method");
+    if (is_less(this->angV, 0))
+        throw WrongAngleVelocityValue("This method now can only work with positive numbers of angV");
 
-    auto radius_vector = [&] () {
-        return (this->R - this->center_coords);
-    };
+    double angle = get_angle(this->R - this->center_coords, Vector(1, 0));
+
+    /* std::cout << "This angle on start: " << angle * 180 / pi() << std::endl; */
+
+    if (is_bigger(this->angV * time, pi() / 2))
+        throw WrongAngleVelocityValue("Police ship is moving too fast");
     
-    this->R = this->R + this->V * time;
-
-    Vector r  = radius_vector();
-
-    double _x = r.x_pos();
-    double _y = r.y_pos();
+    angle += this->angV * time;
 
     double x = 0, y = 0;
-    double k = (_y / _x);
-    k *= k;
+    double cos = std::cos(angle), sin = std::sin(angle);
 
-    double L = this->V.length();
-    
-    y = L / std::sqrt( k + 1 );
-    x = y * std::sqrt( k );
+    /* std::cout << "Angle in the end: " << angle * 180 / pi() << std::endl; */
 
-    auto ans = [&] (double ax, double ay) {
-        return is_equal((ax * _x) + (ay * _y), 0);
-    };
+    // Change sign of cosinus depending on which quarter is angle in
+    if (is_less(R.x_pos(), center_coords.x_pos()))
+        cos = -std::fabs(cos);
+    else
+        cos = std::fabs(cos);
 
-    /*
-     * Check what answere is correct one
-     */
-    if      (ans( x,  y)) { this->V = Vector( x,  y); }
-    else if (ans( x, -y)) { this->V = Vector( x, -y); }
-    else if (ans(-x,  y)) { this->V = Vector(-x,  y); }
-    else if (ans(-x, -y)) { this->V = Vector(-x, -y); }
-    else {
-        throw BadXYValue("None answere was correct in move_along_cirle method");
-    }
+    // Change sign of sinus depending on which quarter is angle in
+    if (is_less(R.y_pos(), center_coords.y_pos()))
+        sin = -std::fabs(sin);
+    else
+        sin = std::fabs(sin);
+
+    x = this->radius * cos + this->center_coords.x_pos();
+    y = this->radius * sin + this->center_coords.y_pos();
+
+    this->R = Vector(x, y);
 }

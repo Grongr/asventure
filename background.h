@@ -13,7 +13,7 @@ using namespace std;
 class Background
 {
     private:
-        array<array<sf::Sprite, 10>, 10> back;
+        array<array<sf::Sprite, 3>, 3> back;
         sf::Texture backTexture;
 
     public:
@@ -23,9 +23,9 @@ class Background
             this->backTexture.loadFromFile("../images/interface/background.png");
             sf::Sprite background(backTexture);
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 3; i++)
             {
-                for (int j = 0; j < 10; j++)
+                for (int j = 0; j < 3; j++)
                 {
                     back[i][j] = background;
                 }
@@ -34,9 +34,9 @@ class Background
             int x = 0;
             int y = 0;
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 3; i++)
             {
-                for (int j = 0; j < 10; j++)
+                for (int j = 0; j < 3; j++)
                 {
                     back[i][j].setPosition(x, y);
                     x = x + 1680;
@@ -53,13 +53,14 @@ class Background
          * the nearest to spaceship sprites.
          */
 
-        void DrawBack(sf::RenderWindow& window)
+        void DrawBack(sf::RenderWindow& window, std::shared_ptr<SpaceShip> ship)
         {
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 3; i++)
             {
-                for (int j = 0; j < 10; j++)
+                for (int j = 0; j < 3; j++)
                 {
-                    window.draw(back[i][j]);
+                    if (ship->get_position().x_pos() > (j-2)*1680 && ship->get_position().y_pos() < (j+2)*1680 && ship->get_position().y_pos() > (i-2)*1050 && ship->get_position().y_pos() < (i+2)*1050)
+                        window.draw(back[i][j]);
                 }
             }
         }

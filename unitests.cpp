@@ -4,6 +4,7 @@
 
 #include "unitests.h"
 #include "geometricvector.h"
+#include "policeship.h"
 #include "spaceship.h"
 
 #include <cmath>
@@ -21,6 +22,7 @@
 
 bool check_unit_test(int test_num, Vector const& R0, Vector const& R) {
     if (R0 != R) {
+        std::cout << "#######################" << std::endl;
         std::cout << "Test number " << test_num << " not passed!" << std::endl;
 
         std::cout << "The vector that we got" << std::endl;
@@ -30,9 +32,10 @@ bool check_unit_test(int test_num, Vector const& R0, Vector const& R) {
 
         return false;
     } else {
-        std::cout << "Test number " << test_num << " passed correctly :)" << std::endl;
+        /* std::cout << "Test number " << test_num << " passed correctly :)" << std::endl; */
         return true;
-    } }
+    }
+}
 
 void sps_move_unit_test() {
     {
@@ -162,10 +165,7 @@ void pirate_ship_move_unit_test() {
 
 #define TEST(test_num, polsh, time, RRes)                       \
     {                                                           \
-        while(time > 0) {                                       \
-            polsh->move_along_circle(0.0001);                   \
-            time -= 0.0001;                                     \
-        }                                                       \
+        polsh->move_along_circle(time);                         \
                                                                 \
         check_unit_test(test_num, polsh->get_position(), RRes); \
     }
@@ -174,26 +174,56 @@ void make_standart_police_ship(PoliceShipBuilder &builder) {
     builder.set_fuel_cost(0);
     builder.set_is_engine_active(true);
     builder.set_AVec(Vector(0, 0));
-    builder.set_R(Vector(0, 0));
     builder.set_mass(0);
+    builder.set_V(Vector(0, 0));
 }
 
 void police_ship_move_unit_test() {
-    // Test 11
+    // Test 11, 12, 13, 14
     {
         EnergyFuelSystemBuilder builder{0, 0, 0, 0, 0};
         PoliceShipBuilder pbl;
         make_standart_police_ship(pbl);
 
+        pbl.set_R(Vector(0, 0));
         Vector cr(1, 0);
         pbl.set_center_coords(cr);
         pbl.set_radius(cr.length());
-        pbl.set_V(Vector(0, 1));
+        pbl.set_angV(pi() / 2);
 
         auto polsh = pbl.make_police_ship(builder);
-        double time = cr.length() * pi();
-        TEST(11, polsh, time, Vector(1, 1))       
+        TEST(11, polsh, 1, Vector(1,  1))       
+        TEST(12, polsh, 1, Vector(2,  0))       
+        /* TEST(13, polsh, 1, Vector(1, -1)) */       
+        /* TEST(14, polsh, 1, Vector(0,  0)) */       
+    }
+    // Test 15
+    {
+        EnergyFuelSystemBuilder builder{0, 0, 0, 0, 0};
+        PoliceShipBuilder pbl;
+        make_standart_police_ship(pbl);
+        pbl.set_R(Vector(-1, 0));
+        pbl.set_center_coords(Vector(0, 0));
+        pbl.set_radius(1);
+        pbl.set_angV(pi() / 2);
+
+        auto polsh = pbl.make_police_ship(builder);
+        TEST(15, polsh, 1, Vector(0, 1))
+    }
+    // Test 16
+    {
+        EnergyFuelSystemBuilder builder{0, 0, 0, 0, 0};
+        PoliceShipBuilder pbl;
+        make_standart_police_ship(pbl);
+        pbl.set_R(Vector(-1, 0));
+        pbl.set_center_coords(Vector(0, 0));
+        pbl.set_radius(1);
+        pbl.set_angV(pi() / 4);
+
+        auto polsh = pbl.make_police_ship(builder);
+        TEST(16, polsh, 1, Vector(-1 / std::sqrt(2), 1 / std::sqrt(2)))
     }
 }
 
 #undef TEST
+

@@ -2,6 +2,7 @@
 #define VIEW_H
 
 #include <SFML/Graphics.hpp>
+
 #include "geometricvector.h"
 
 class Camera
@@ -21,7 +22,18 @@ class Camera
         }
         void StalkingShip(Vector vec)
         {
-            camera_view.setCenter(vec.x_pos(), vec.y_pos());
+            double x = vec.x_pos();
+            double y = vec.y_pos();
+
+            if (x < 840)
+                x = 840;
+            if (x > 4200)
+                x = 4200;
+            if (y < 525)
+                y = 525;
+            if (y > 2625)
+                y = 2625;
+            camera_view.setCenter(x, y);
         }
 };
 
