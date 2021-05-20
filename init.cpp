@@ -3,6 +3,7 @@
 #include "init.h"
 #include "pirateship.h"
 #include "spaceship.h"
+//#include "policeship.h"
 
 EnergyFuelSystemBuilder InitEFS() {
     EnergyFuelSystemBuilder efsb;
@@ -20,7 +21,7 @@ std::shared_ptr<SpaceShip> InitSS() {
 	ssb.set_fuel_cost(1);
 	ssb.set_is_engine_active(false);
 	ssb.set_AVec(Vector(0, 0));
-	ssb.set_R(Vector(2520,1575));
+	ssb.set_R(Vector(800,800));
 	ssb.set_V(Vector(0,0));
 	ssb.set_mass(0);
 	auto ship = ssb.make_spaceship(InitEFS());
@@ -54,4 +55,21 @@ std::shared_ptr<Character> InitCH(int ac, int armor, int damage, int money, int 
     auto character = chb.make_char();
 
     return std::move(character);
+}
+
+std::shared_ptr<PoliceShip> InitPL(Vector cc, double r, double aV)
+{
+    PoliceShipBuilder plb;
+    plb.set_center_coords(cc);
+    plb.set_angV(aV);
+    plb.set_radius(r);
+    plb.set_fuel_cost(1);
+	plb.set_is_engine_active(false);
+	plb.set_AVec(Vector(0, 0));
+	plb.set_R(Vector(800,800));
+	plb.set_V(Vector(0,0));
+	plb.set_mass(0);
+    auto policeship = plb.make_police_ship(InitEFS());
+
+    return std::move(policeship);
 }

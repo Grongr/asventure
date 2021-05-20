@@ -1,6 +1,8 @@
 #include "drawstats.h"
 #include "init.h"
 #include "geometricvector.h"
+#include <SFML/Graphics.hpp>
+#include <string>
 
 DrawStats::DrawStats()
 {
@@ -23,14 +25,36 @@ DrawStats::DrawStats()
     hp[4].loadFromFile("../images/states/hp80.png");
     hp[5].loadFromFile("../images/states/hp100.png");
     
+    //sf::Font f;
+    font.loadFromFile("../images/font/18839.otf");
+    //font = f;
+
+    money.setFont(font);
+    money.setCharacterSize(40);
+    money.setFillColor(sf::Color::Yellow);
+    money.setPosition(1553, 1025);
+
+    damage.setFont(font);
+    damage.setCharacterSize(40);
+    damage.setFillColor(sf::Color::Yellow);
+    damage.setPosition(1353, 1025);
+
+    armor.setFont(font);
+    armor.setCharacterSize(40);
+    armor.setFillColor(sf::Color::Yellow);
+    armor.setPosition(1253, 1050);
+
+    bfg.setFont(font);
+    bfg.setCharacterSize(40);
+    bfg.setFillColor(sf::Color::Yellow);
+    bfg.setPosition(1453, 1050);
+
+    
 }
 
 void DrawStats::Update(sf::RenderWindow& window, Camera& camera)
 {
     sf::Sprite stat0(stat);
-    std::cout << character->hp() << std::endl;
-    std::cout << character->ammo_count() << std::endl;
-
     sf::Sprite hp0;
     sf::Sprite am0;
     
@@ -67,11 +91,28 @@ void DrawStats::Update(sf::RenderWindow& window, Camera& camera)
     double x = camera.getCameraCoords().x_pos() + 388;
     double y = camera.getCameraCoords().y_pos() + 393;
 
+
+
     stat0.setPosition(x, y);
     if (character->ammo_count() > 0)
         am0.setPosition(x, y);
     if (character->hp() > 0)
         hp0.setPosition(x, y);
+
+    money.setPosition(x + 55, y + 65);
+    damage.setPosition(x + 170, y + 65);
+    armor.setPosition(x + 270, y + 65);
+    bfg.setPosition(x + 375, y + 65);
+
+    money.setString(std::to_string(character->money()));
+    damage.setString(std::to_string(character->damage()));
+    armor.setString(std::to_string(character->armor()));
+    bfg.setString(std::to_string(character->BFG()));
+
+    window.draw(money);
+    window.draw(damage);
+    window.draw(armor);
+    window.draw(bfg);
     
     window.draw(stat0);
     window.draw(am0);

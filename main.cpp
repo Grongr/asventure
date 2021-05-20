@@ -17,6 +17,7 @@
 #include "drawstats.h"
 #include "character.h"
 #include "init.h"
+#include "police.h"
 
 int main() 
 {
@@ -58,6 +59,8 @@ int main()
     Background background;
 
     Pirates pirates;
+
+    Police police;
 
     DrawStats drawstats;
 
@@ -111,7 +114,8 @@ int main()
         drawstats.Update(window, camera);
         
         pirates.Draw(window, time, 100, drawship.GetShip()->get_position().x_pos(), drawship.GetShip()->get_position().y_pos());
-
+        
+        police.Draw(window, drawship.GetShip()->get_position().x_pos(), drawship.GetShip()->get_position().y_pos());
         window.draw(ship);
         //window.draw(pirateship);
     	window.display();

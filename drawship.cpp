@@ -51,3 +51,16 @@ void DrawPirateShip::MoveShip(double time, double constant)
 std::shared_ptr<PirateShip> DrawPirateShip::GetShip() { return this->pirate_ship; }
 
 sf::FloatRect DrawPirateShip::GetRect() { return this->rect; }
+
+
+/*==========================_PoliceShip_========================*/
+
+DrawPoliceShip::DrawPoliceShip()
+{
+}
+
+DrawPoliceShip::DrawPoliceShip(Vector cc, double r, double aV)
+{
+    this->rect = sf::FloatRect(500, 500, 32, 32);
+    this->police_ship = InitPL(cc, r, aV);
+}

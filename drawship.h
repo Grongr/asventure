@@ -52,7 +52,6 @@ class DrawShip
  * It stores ptr on the pirate ship and params
  * for it's sprite
  */
-
 class DrawPirateShip: public DrawShip
 {
     private:
@@ -80,6 +79,21 @@ class DrawPirateShip: public DrawShip
         /*
          * Returns rect params
          */
+        sf::FloatRect GetRect();
+};
+
+/*
+ * This class contains funcs to draw PoliceShip.
+ */
+class DrawPoliceShip: public DrawShip
+{
+     private:
+        std::shared_ptr<PoliceShip> police_ship;
+        sf::FloatRect rect;
+    public:
+        DrawPoliceShip();
+        DrawPoliceShip(Vector cc, double r, double aV);
+        std::shared_ptr<PoliceShip> GetShip();
         sf::FloatRect GetRect();
 };
 

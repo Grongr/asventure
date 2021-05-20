@@ -11,6 +11,11 @@ private:
    std::array<sf::Texture, 6> ammo;
    std::array<sf::Texture, 6> hp;
    sf::Texture stat;
+   sf::Text money;
+   sf::Text damage;
+   sf::Text armor;
+   sf::Text bfg;
+   sf::Font font;
 
 public:
     DrawStats();
