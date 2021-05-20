@@ -167,5 +167,17 @@ public:
     explicit ShoppingPlanetBParamCountError(std::string error) : PlanetBParamCountError(error) {}
 };
 
+//-----------------------------------------------------------------------------------------------------------//
+
+class CharacterBParamCountError : public std::exception {
+public:
+
+    explicit CharacterBParamCountError(std::string error) : error{std::move(error)} {}
+
+    [[nodiscard]] const char* what() const noexcept final { return error.c_str(); }
+private:
+    std::string error;
+};
+
 #endif //ASVERGIN_SPS_ERRORS_H
 

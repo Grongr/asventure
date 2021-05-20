@@ -3,32 +3,51 @@
 
 //------------------------------------------CharacterMethods-------------------------------------------------//
 
-[[nodiscard]] int  Character::ammo_count() const { return _ammo_count; }
+[[nodiscard]] bool Character::is_in_maneuver() const { return _is_in_maneuver; }
 
-[[nodiscard]] int  Character::damage()     const { return _damage; }
+[[nodiscard]] int  Character::ammo_count()      const { return _ammo_count; }
 
-[[nodiscard]] int  Character::armor()      const { return _armor; }
+[[nodiscard]] bool Character::is_alive()        const { return _is_alive; }
 
-[[nodiscard]] int  Character::money()      const { return _money; }
+[[nodiscard]] int  Character::damage()          const { return _damage; }
 
-[[nodiscard]] int  Character::BFG()        const { return _BFG; }
+[[nodiscard]] int  Character::armor()           const { return _armor; }
 
-[[nodiscard]] int  Character::hp()         const { return _hp; }
+[[nodiscard]] int  Character::money()           const { return _money; }
 
-[[nodiscard]] bool Character::is_alive()   const { return _is_alive; }
+[[nodiscard]] int  Character::BFG()             const { return _BFG; }
 
+[[nodiscard]] int  Character::hp()              const { return _hp; }
+
+bool Character::maneuver(Character& enemy) {
+    if (enemy.is_in_maneuver()) {
+        enemy.toggle_maneuver();
+        this->_is_in_maneuver = false;
+    } else {
+        enemy.toggle_maneuver();
+        this->_is_in_maneuver = true;
+    }
+
+    return this->is_in_maneuver();
+}
 
 void Character::die_mf_die() { this->_is_alive = false; }
 
+void Character::toggle_maneuver() { this->_is_in_maneuver = !this->_is_in_maneuver; }
 
-void Character::attack(Character& enemy) const {
+int Character::attack(Character& enemy) const {
+
+    if (enemy.is_in_maneuver())
+        return 0;
+
     std::random_device rd; 
 
     int attack = ( rd() % 20 + 1 ) + this->BFG();
 
+    int result_damage = 0;
+
     // If attack is bigger then enemy defence
     if (enemy.armor() < attack) {
-        int result_damage = 0;
 
         result_damage += rd() % 6 + 1;
         result_damage += rd() % 6 + 1;
@@ -42,7 +61,7 @@ void Character::attack(Character& enemy) const {
             enemy.die_mf_die();
     }
 
-    return;
+    return result_damage;
 }
 
 //-------------------------------------------CharacterBuilder------------------------------------------------//
