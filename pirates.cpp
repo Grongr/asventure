@@ -6,7 +6,7 @@
 
 Pirates::Pirates()
 {
-    std::fstream file("../pirates.txt", std::ios::in);
+    std::fstream file("../init_files/pirates.txt", std::ios::in);
     std::string one_pirate;
     if (!file)
             std::cout<< "kek";

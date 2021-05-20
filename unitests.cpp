@@ -226,4 +226,3 @@ void police_ship_move_unit_test() {
 }
 
 #undef TEST
-

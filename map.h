@@ -1,3 +1,8 @@
+
+/*!
+ * Do not touch Alyona's garbage
+ */
+
 #include <iostream>
 #include "geometricvector.h"
 #include <string.h>

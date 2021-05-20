@@ -14,8 +14,9 @@ add_executable(main main.cpp
                     doublecmp.h doublecmp.cpp
                     drawship.h drawship.cpp
                     interface.h interface.cpp
-                    menu.h view.h background.h
-                    pirates.h pirates.cpp)
+                    planets.h planets.cpp
+                    character.h character.cpp
+                    menu.h view.h background.h)
 
 find_package(SFML 2.5 COMPONENTS graphics audio window system REQUIRED)
 

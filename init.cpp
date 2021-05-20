@@ -25,8 +25,7 @@ std::shared_ptr<SpaceShip> InitSS() {
 	ssb.set_mass(0);
 	auto ship = ssb.make_spaceship(InitEFS());
 	
-	/* return std::move(ship); */
-    return ship;
+    return std::move(ship);
 }
 
 std::shared_ptr<PirateShip> InitPS(std::list<Vector> trajectory, int head_cost, Vector velocity, Vector radius_vector) {
@@ -43,5 +42,3 @@ std::shared_ptr<PirateShip> InitPS(std::list<Vector> trajectory, int head_cost, 
 
     return std::move(pirate_ship);
 }
-
-

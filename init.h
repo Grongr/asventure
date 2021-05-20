@@ -25,5 +25,3 @@ std::shared_ptr<SpaceShip> InitSS();
 std::shared_ptr<PirateShip> InitPS(std::list<Vector> trajectory, int head_cost, Vector velocity, Vector radius_vector);
 
 #endif //INIT_H
-
-

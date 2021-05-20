@@ -1,12 +1,13 @@
 #ifndef DRAWSHIP_H
 #define DRAWSHIP_H
 
-#include <memory>
 #include <SFML/Graphics.hpp>
+#include <memory>
+
 #include "spaceship.h"
 #include "pirateship.h"
 #include "geometricvector.h"
-//#include "init.h"
+#include "init.h"
 
 /*
  * This class contains funcs to draw SpaceShip.
