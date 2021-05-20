@@ -72,12 +72,17 @@ public:
     [[nodiscard]] bool is_in_maneuver() const;
 
     /*!
+     * @return _is_in_defence param
+     */
+    [[nodiscard]] bool is_in_defence() const;
+
+    /*!
      * Methos which is needed to
      * attack character's enemy
      * @param enemy  -  character's enemy
      * @return damage or 0 if you cannot hit the target
      */
-    int attack(Character& enemy) const;
+    int attack(Character& enemy);
 
     /*!
      * Method that makes character dead.
@@ -96,6 +101,23 @@ public:
      */
     void toggle_maneuver();
 
+    /*!
+     * makes _is_in_defence param opposite
+     */
+    void toggle_active_defence();
+
+    /*!
+     * Makes _is_in_defence param true;
+     */
+    void active_defence();
+
+    /*!
+     * Add 1d8 to hp param.
+     * Uses battery energy.
+     * @return result hp
+     */
+    int repair();
+
 private:
     int _ammo_count;
     int _damage;
@@ -104,7 +126,8 @@ private:
     int _BFG;
     int _hp;
 
-    bool _is_in_maneuver;
+    bool _is_in_maneuver{false};
+    bool _is_in_defence{false};
     bool _is_alive{false};
 };
 //-----------------------------------------------------------------------------------------------------------//

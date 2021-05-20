@@ -3,7 +3,9 @@
 
 //------------------------------------------CharacterMethods-------------------------------------------------//
 
-[[nodiscard]] bool Character::is_in_maneuver() const { return _is_in_maneuver; }
+[[nodiscard]] bool Character::is_in_maneuver()  const { return _is_in_maneuver; }
+
+[[nodiscard]] bool Character::is_in_defence()   const { return _is_in_defence; }
 
 [[nodiscard]] int  Character::ammo_count()      const { return _ammo_count; }
 
@@ -20,6 +22,9 @@
 [[nodiscard]] int  Character::hp()              const { return _hp; }
 
 bool Character::maneuver(Character& enemy) {
+    if (this->is_in_defence())
+        this->toggle_active_defence();
+
     if (enemy.is_in_maneuver()) {
         enemy.toggle_maneuver();
         this->_is_in_maneuver = false;
@@ -31,14 +36,25 @@ bool Character::maneuver(Character& enemy) {
     return this->is_in_maneuver();
 }
 
-void Character::die_mf_die() { this->_is_alive = false; }
+void Character::toggle_active_defence() { this->_is_in_defence = !this->_is_in_defence; }
 
-void Character::toggle_maneuver() { this->_is_in_maneuver = !this->_is_in_maneuver; }
+void Character::toggle_maneuver()       { this->_is_in_maneuver = !this->_is_in_maneuver; }
 
-int Character::attack(Character& enemy) const {
+void Character::active_defence()        { this->_is_in_defence = true; }
+
+void Character::die_mf_die()            { this->_is_alive = false; }
+
+int Character::attack(Character& enemy) {
+    if (this->is_in_defence())
+        this->toggle_active_defence();
 
     if (enemy.is_in_maneuver())
         return 0;
+
+    int armor_modifier = 0;
+
+    if (enemy.is_in_defence())
+        armor_modifier += 2;
 
     std::random_device rd; 
 
@@ -47,7 +63,7 @@ int Character::attack(Character& enemy) const {
     int result_damage = 0;
 
     // If attack is bigger then enemy defence
-    if (enemy.armor() < attack) {
+    if (enemy.armor() + armor_modifier < attack) {
 
         result_damage += rd() % 6 + 1;
         result_damage += rd() % 6 + 1;
@@ -62,6 +78,15 @@ int Character::attack(Character& enemy) const {
     }
 
     return result_damage;
+}
+
+int Character::repair() {
+    std::random_device rd;
+    
+    int heal = rd() % 8 + 1;
+    this->_hp += heal;
+
+    return this->hp();
 }
 
 //-------------------------------------------CharacterBuilder------------------------------------------------//
