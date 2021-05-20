@@ -3,6 +3,7 @@
 //
 
 #include "unitests.h"
+#include "dialogue.h"
 #include "geometricvector.h"
 #include "policeship.h"
 #include "spaceship.h"
@@ -223,6 +224,12 @@ void police_ship_move_unit_test() {
         auto polsh = pbl.make_police_ship(builder);
         TEST(16, polsh, 1, Vector(-1 / std::sqrt(2), 1 / std::sqrt(2)))
     }
+}
+
+// Dialogue class test
+void dio_test() {
+    Dialogue dlg("../dialogues/pirate0.dlg");
+    dlg.print_dialogues(std::cout);
 }
 
 #undef TEST

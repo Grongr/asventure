@@ -55,4 +55,6 @@ void make_standart_police_ship(PoliceShipBuilder& builder);
  */
 void police_ship_move_unit_test();
 
+void dio_test();
+
 #endif //SPACESHIP_UNITESTS_H

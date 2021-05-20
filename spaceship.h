@@ -336,6 +336,8 @@ public:
      */
     [[nodiscard]] Vector get_acceleration() const { return AVec; }
 
+    //TODO: Get fuel and get max fuel methods
+
     /*!
      * Destructor of spaceship. To avoid hierarchy errors (:
      */
