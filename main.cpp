@@ -14,11 +14,16 @@
 #include "quests.h"
 #include <vector>
 #include "pirates.h"
+#include "drawstats.h"
+#include "character.h"
+#include "init.h"
 
 int main() 
 {
     // Rendering window
     sf::RenderWindow window(sf::VideoMode(1680, 1050), "asventure");
+    
+    //window.setFramerateLimit(30);
     
     // Init camera view to follow your ship
     Camera camera;
@@ -54,16 +59,20 @@ int main()
 
     Pirates pirates;
 
+    DrawStats drawstats;
+
+    double time = 0.001;
+
     while (window.isOpen())
     {
-        sf::Clock clock;
-        double time = clock.getElapsedTime().asMicroseconds();
+        //sf::Clock clock;
+        //double time = clock.getElapsedTime().asMicroseconds();
         
         // Starting timer
-        clock.restart();
+        //clock.restart();
         
         // I'm still not good at time management
-        time = time/1000;
+        //time = time/2;
 
         // Managing window
         sf::Event event;
@@ -98,6 +107,8 @@ int main()
         
 
         background.DrawBack(window, drawship.GetShip());
+
+        drawstats.Update(window, camera);
         
         pirates.Draw(window, time, 100, drawship.GetShip()->get_position().x_pos(), drawship.GetShip()->get_position().y_pos());
 

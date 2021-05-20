@@ -1,7 +1,10 @@
 #ifndef CHARACTER_HEADER_INCLUDED
 #define CHARACTER_HEADER_INCLUDED
 
-#include "quests.h"
+#include <memory>
+#include <string>
+
+#include "sps_errors.h"
 
 //-----------------------------------------------------------------------------------------------------------//
 class Character {
@@ -64,16 +67,34 @@ public:
     [[nodiscard]] bool is_alive() const;
 
     /*!
+     * @return true if it is in maneuver
+     */
+    [[nodiscard]] bool is_in_maneuver() const;
+
+    /*!
      * Methos which is needed to
      * attack character's enemy
      * @param enemy  -  character's enemy
+     * @return damage or 0 if you cannot hit the target
      */
-    void attack(Character& enemy) const;
+    int attack(Character& enemy) const;
 
     /*!
      * Method that makes character dead.
      */
     void die_mf_die();
+
+    /*!
+     * Method which should be called when 
+     * character starts to maneuver
+     * @return your param is_in_maneuver after running func
+     */
+    bool maneuver(Character& enemy);
+    
+    /*!
+     * Changes maneuver param
+     */
+    void toggle_maneuver();
 
 private:
     int _ammo_count;
@@ -83,6 +104,7 @@ private:
     int _BFG;
     int _hp;
 
+    bool _is_in_maneuver;
     bool _is_alive{false};
 };
 //-----------------------------------------------------------------------------------------------------------//
@@ -132,6 +154,18 @@ public:
      * @param hp
      */
     void set_hp(int hp);
+
+    /*!
+     * Method that makes it possible to create character
+     * from bulder class object
+     */
+    [[nodiscard]] std::shared_ptr<Character> make_char() const {
+        if (count_of_params != 6)
+            throw CharacterBParamCountError("Wrong param number. You set " + std::to_string(6) + ", but needed 6");
+        std::shared_ptr<Character> chr(new Character(ammo_count, damage, armor, money, BFG, hp));
+
+        return chr;
+    }
     
 private:
     int ammo_count;

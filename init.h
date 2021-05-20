@@ -7,6 +7,7 @@
 #include "spaceship.h"
 #include "pirateship.h"
 #include "geometricvector.h"
+#include "character.h"
 
 /*!
  * Creates Energy Fuel System
@@ -23,5 +24,11 @@ std::shared_ptr<SpaceShip> InitSS();
  * Creates a pirate ship
  */
 std::shared_ptr<PirateShip> InitPS(std::list<Vector> trajectory, int head_cost, Vector velocity, Vector radius_vector);
+
+/*!
+ * Creates a character
+ */
+ std::shared_ptr<Character> InitCH(int ac, int armor, int damage, int money, int bfg, int hp); 
+
 
 #endif //INIT_H

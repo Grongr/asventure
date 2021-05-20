@@ -42,3 +42,16 @@ std::shared_ptr<PirateShip> InitPS(std::list<Vector> trajectory, int head_cost, 
 
     return std::move(pirate_ship);
 }
+
+std::shared_ptr<Character> InitCH(int ac, int armor, int damage, int money, int bfg, int hp) {
+    CharacterBuilder chb;
+    chb.set_ammo_count(ac);
+    chb.set_armor(armor);
+    chb.set_damage(damage);
+    chb.set_money(money);
+    chb.set_BFG(bfg);
+    chb.set_hp(hp);
+    auto character = chb.make_char();
+
+    return std::move(character);
+}

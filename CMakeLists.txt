@@ -17,7 +17,8 @@ add_executable(main main.cpp
                     planets.h planets.cpp
                     pirates.h pirates.cpp
                     character.h character.cpp
-                    menu.h view.h background.h)
+                    menu.h view.h background.h
+                    drawstats.h drawstats.cpp)
 
 find_package(SFML 2.5 COMPONENTS graphics audio window system REQUIRED)
 
