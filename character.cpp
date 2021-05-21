@@ -64,18 +64,15 @@ int Character::attack(Character& enemy) {
     if (this->is_in_defence())
         this->toggle_active_defence();
 
-    std::cout << "-> Is in maneuver: " << enemy.is_in_maneuver() << std::endl;
     if (enemy.is_in_maneuver())
         return 0;
 
     int armor_modifier = 0;
 
     if (enemy.is_in_defence()) {
-        armor_modifier += 2;
+        armor_modifier += 5;
         enemy.ship->use_batteries(2);
     }
-
-    std::cout << "Armor modifier: " << armor_modifier << std::endl;
 
     std::random_device rd; 
 
@@ -84,13 +81,14 @@ int Character::attack(Character& enemy) {
     int result_damage = 0;
 
     // If attack is bigger then enemy defence
-    std::cout << enemy.armor() << " + " << armor_modifier << " vs " << attack << std::endl;
-    if (enemy.armor() + armor_modifier < attack) {
+    std::cout << std::endl;
+    std::cout << "Defence: " << enemy.armor() << " + " << armor_modifier << std::endl;
+    std::cout << " vs " << std::endl;
+    std::cout << "Attack: " << attack << std::endl;
 
-        for (int i = 0; i < 3; ++i) {
-            result_damage += rd() % 6 + 1;
-            std::cout << "Damage: " << result_damage << std::endl;
-        }
+    if (enemy.armor() + armor_modifier < attack) {
+            
+        result_damage += rd() % 6 + 1;
 
         result_damage += this->damage();
 
@@ -118,7 +116,8 @@ int Character::repair() {
     return this->hp();
 }
 
-void Character::random_act(Character& player) {
+int Character::random_act(Character& player) {
+    int result_damage = 0;
 
     std::random_device rd;
 
@@ -126,7 +125,7 @@ void Character::random_act(Character& player) {
 
     switch (num) {
         case 0:
-            this->attack(player);
+            result_damage += this->attack(player);
             break;
 
         case 1:
@@ -144,6 +143,8 @@ void Character::random_act(Character& player) {
             throw EnemyRandomActError("No act matched for random num");
             break;
     }
+
+    return result_damage;
 }
 
 //-------------------------------------------CharacterBuilder------------------------------------------------//
