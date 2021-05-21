@@ -132,6 +132,13 @@ public:
     [[nodiscard]] double get_fuel() const { return contain_v; }
 
     /*!
+     * Mathod which helps to communicate
+     * with character class
+     * @return fuel amount in persents
+     */
+    [[nodiscard]] int get_percent_fuel() const { return (int) (contain_v / max_v * 100); }
+
+    /*!
      * It checks how many fuel we can give with <energy> amount of energy
      * @param energy
      * @return
@@ -202,11 +209,16 @@ public:
     double use_some_fuel(double fuel);
 
     /*!
-     * Method to use in pair
-     * with character class
      * @return fuel amount int fuel tank
      */
     [[nodiscard]] double get_fuel() const { return tank.get_fuel(); }
+
+    /*!
+     * Method to use in pair
+     * with character class
+     * @return fuel persint amount in fuel tank
+     */
+    [[nodiscard]] int get_percent_fuel() const { return tank.get_percent_fuel(); }
 
     /*!
      * Method to use in pair
@@ -373,6 +385,13 @@ public:
      * @return remaining fuel amount
      */
     [[nodiscard]] double get_remaining_fuel() const { return this->efs.get_fuel(); }
+
+    /*!
+     * Method which helps to communicate
+     * with character class
+     * @return containing fuel in persents
+     */
+    [[nodiscard]] int get_percent_fuel() const { return this->efs.get_percent_fuel(); }
 
     /*!
      * Methos to use it in pair 
