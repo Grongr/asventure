@@ -55,8 +55,13 @@ int main()
 
     double time = 0.001;
 
+    sf::Music music;
+    music.openFromFile("../music/main_theme.ogg");
+
     while (window.isOpen())
     {
+        //music.play();
+
         // Managing window
         sf::Event event;
         while (window.pollEvent(event))

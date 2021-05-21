@@ -42,11 +42,27 @@ void Fight(DrawPirateShip drawpirateship, int head_cost, DrawStats& drawstats)
     maneuver.setFillColor(sf::Color::Yellow);
     maneuver.setPosition(950, 690);
 
+    sf::Text damage_en;
+    damage_en.setFont(font);
+    damage_en.setCharacterSize(50);
+    damage_en.setFillColor(sf::Color::Yellow);
+    damage_en.setPosition(1300, 800);
+
+    sf::Text damage_pl;
+    damage_pl.setFont(font);
+    damage_pl.setCharacterSize(50);
+    damage_pl.setFillColor(sf::Color::Yellow);
+    damage_pl.setPosition(1300, 1300);
+
+    
+
     int num = 0;
 
     int pirates_turns = 0;
     int players_turns = 0;
-
+    
+    int damage_player = 0;
+    int damage_enemy = 0;
 
     while (window.isOpen())
     {
@@ -107,7 +123,8 @@ void Fight(DrawPirateShip drawpirateship, int head_cost, DrawStats& drawstats)
 
                 if (num == 1)
                 {
-                    drawstats.GetCharacter()->attack(*(pirate));   
+                    damage_player = drawstats.GetCharacter()->attack(*(pirate));
+                    damage_pl.setString("Player damage: " + std::to_string(damage_player));
                 }
                 else if (num == 2)
                 {
@@ -124,16 +141,15 @@ void Fight(DrawPirateShip drawpirateship, int head_cost, DrawStats& drawstats)
             }
             players_turns ++;
         }
-        else if (pirates_turns < 2)
-        {
-            Character::enemy_ai(*(drawstats.GetCharacter()), *(pirate));
-            pirates_turns ++;
-        }
         else
         {
-            pirates_turns = 0;
-            players_turns = 0;
+            damage_enemy = Character::enemy_ai(*(drawstats.GetCharacter()), *(pirate));
+            damage_en.setString("Enemy damage: " + std::to_string(damage_enemy));
+
         }
+    
+        players_turns = 0;
+        
         
         window.clear();
 
@@ -144,6 +160,8 @@ void Fight(DrawPirateShip drawpirateship, int head_cost, DrawStats& drawstats)
         window.draw(defend);
         window.draw(repair);
         window.draw(maneuver);
+        window.draw(damage_en);
+        window.draw(damage_pl);
         window.display();
     }
 }

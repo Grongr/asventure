@@ -63,6 +63,15 @@ DrawStats::DrawStats(std::shared_ptr<SpaceShip> ship, Camera* camera)
     armor.setFillColor(sf::Color::Yellow);
     armor.setPosition(1253, 1050);
 
+    hp_val.setFont(font);
+    hp_val.setCharacterSize(40);
+    hp_val.setFillColor(sf::Color::Yellow);
+
+    am_val.setFont(font);
+    am_val.setCharacterSize(40);
+    am_val.setFillColor(sf::Color::Yellow);
+    
+
     bfg.setFont(font);
     bfg.setCharacterSize(40);
     bfg.setFillColor(sf::Color::Yellow);
@@ -171,11 +180,15 @@ void DrawStats::Update(sf::RenderWindow& window, std::string id)
     damage.setPosition(x + 170, y + 65);
     armor.setPosition(x + 270, y + 65);
     bfg.setPosition(x + 375, y + 65);
+    hp_val.setPosition(x + 250, y+10);
+    am_val.setPosition(x + 250, y -40);
 
     money.setString(std::to_string(character->money()));
     damage.setString(std::to_string(character->damage()));
     armor.setString(std::to_string(character->armor()));
     bfg.setString(std::to_string(character->BFG()));
+    hp_val.setString(std::to_string(character->hp()));
+    //am_val.setString(std::to_string(character->ammo_count()));
 
     window.draw(money);
     window.draw(damage);
@@ -187,4 +200,6 @@ void DrawStats::Update(sf::RenderWindow& window, std::string id)
     window.draw(hp0);
     window.draw(bat0);
     window.draw(ft0);
+    window.draw(hp_val);
+    //window.draw(am_val);
 }

@@ -12,6 +12,9 @@ void menu(sf::RenderWindow& window)
     manualTexture.loadFromFile("../images/menu/manual.png");
     menuBackground.loadFromFile("../images/menu/menu.png");
 
+    sf::Music music;
+    music.openFromFile("../music/asventure.ogg");
+
     sf::Sprite menu1(menuTexture1), menu2(menuTexture2), menu3(menuTexture3), manual(manualTexture), background(menuBackground);
 
     bool isMenu = 1;
@@ -25,6 +28,8 @@ void menu(sf::RenderWindow& window)
 
     while (isMenu)
     {
+        //music.play();
+
         menu1.setColor(sf::Color::White);
         menu2.setColor(sf::Color::White);
         menuNum = 0;

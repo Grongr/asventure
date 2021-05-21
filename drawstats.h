@@ -17,6 +17,8 @@ private:
    sf::Text armor;
    sf::Text bfg;
    sf::Font font;
+   sf::Text hp_val;
+   sf::Text am_val;
    std::array<sf::Texture, 10> bat;
    std::array<sf::Texture, 6> ft;
    Camera* camera0;
