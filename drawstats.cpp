@@ -4,10 +4,12 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 
-DrawStats::DrawStats(std::shared_ptr<SpaceShip> ship)
+DrawStats::DrawStats(std::shared_ptr<SpaceShip> ship, Camera* camera)
 {
     character = InitCH(50, 15, 3, 100, 11, 100, ship);
     rect = sf::FloatRect(452, 452, 132, 132);
+    
+    camera0 = camera;
 
     stat.loadFromFile("../images/states/states.png");
 
@@ -43,11 +45,8 @@ DrawStats::DrawStats(std::shared_ptr<SpaceShip> ship)
     ft[4].loadFromFile("../images/ship/fu75.png");
     ft[5].loadFromFile("../images/ship/fu100.png");
 
-    
 
-    //sf::Font f;
     font.loadFromFile("../images/font/18839.otf");
-    //font = f;
 
     money.setFont(font);
     money.setCharacterSize(40);
@@ -72,7 +71,7 @@ DrawStats::DrawStats(std::shared_ptr<SpaceShip> ship)
     
 }
 
-void DrawStats::Update(sf::RenderWindow& window, Camera& camera)
+void DrawStats::Update(sf::RenderWindow& window, std::string id)
 {
     sf::Sprite stat0(stat);
     sf::Sprite hp0;
@@ -143,9 +142,20 @@ void DrawStats::Update(sf::RenderWindow& window, Camera& camera)
         ft0 = sf::Sprite(ft[1]);
     if (character->get_ship()->get_percent_fuel() <= 0)
         ft0 = sf::Sprite(ft[0]);
+    
+    double x, y;
 
-    double x = camera.getCameraCoords().x_pos() + 388;
-    double y = camera.getCameraCoords().y_pos() + 393;
+    if (id == "static")
+    {
+        x = 840 + 388;
+        y = 525 + 393;
+    }
+
+    else
+    {
+        x = camera0->getCameraCoords().x_pos() + 388;
+        y = camera0->getCameraCoords().y_pos() + 390;
+    }
 
 
 
@@ -177,5 +187,4 @@ void DrawStats::Update(sf::RenderWindow& window, Camera& camera)
     window.draw(hp0);
     window.draw(bat0);
     window.draw(ft0);
-    //window.display();
 }

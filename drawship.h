@@ -58,6 +58,7 @@ class DrawPirateShip: public DrawShip
         std::shared_ptr<PirateShip> pirate_ship;
         sf::FloatRect rect;
         bool is_alive;
+        int headcost;
     public:
         /*
          * Builds PirateShip, sets params for rect
@@ -83,6 +84,10 @@ class DrawPirateShip: public DrawShip
         sf::FloatRect GetRect();
 
         bool IsAlive() { return is_alive; }
+
+        int GetHeadCost() { return headcost; }
+
+        void Kill() { is_alive = false; }
 };
 
 /*

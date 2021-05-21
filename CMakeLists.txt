@@ -20,7 +20,8 @@ add_executable(main main.cpp
                     menu.h view.h background.h
                     drawstats.h drawstats.cpp
                     dialogue.h dialogue.cpp
-                    police.h police.cpp)
+                    police.h police.cpp
+                    fight.h fight.cpp)
 
 find_package(SFML 2.5 COMPONENTS graphics audio window system REQUIRED)
 

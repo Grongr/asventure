@@ -32,6 +32,7 @@ DrawPirateShip::DrawPirateShip(std::list<Vector> trajectory, int head_cost, Vect
 {
     this->rect = sf::FloatRect(500, 500, 32, 32);
     this->pirate_ship = InitPS(trajectory, head_cost, velocity, radius_vector);
+    this->headcost = head_cost;
 }
 
 DrawPirateShip::DrawPirateShip()

@@ -29,4 +29,5 @@ class Pirates
         Pirates();
         void Draw(sf::RenderWindow& window, double time, double constant, double x, double y);
         std::array<DrawPirateShip, 9> GetPirates() { return pirateships; }
+        std::array<int, 9> GetHeadCosts() { return head_costs; }
 };

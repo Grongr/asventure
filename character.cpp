@@ -133,7 +133,7 @@ void Character::random_act(Character& player) {
             this->active_defence();
             break;
 
-        case 3:
+        case 2:
             if (this->_hill_count < max_enemy_hills) {
                 this->repair();
                 ++this->_hill_count;

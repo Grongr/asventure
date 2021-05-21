@@ -24,8 +24,6 @@ int main()
     // Rendering window
     sf::RenderWindow window(sf::VideoMode(1680, 1050), "asventure");
     
-    //window.setFramerateLimit(30);
-    
     // Init camera view to follow your ship
     Camera camera;
     
@@ -40,17 +38,8 @@ int main()
     // Engine is active (can be activated in params of builder also)
     drawship.GetShip()->toggle_engine();
     
-    // Pirate ship is building
-    
-    //DrawPirateShip drawpirateship;
-
     Quest quest;
 
-    // Sprite for pirate ship
-    //sf::Texture pirateTexture;
-    //pirateTexture.loadFromFile("../images/ships/ship2.png");
-    //sf::Sprite pirateship(pirateTexture);
-    
     // Init user interaction
     Interface interface;
 
@@ -62,21 +51,12 @@ int main()
 
     Police police;
 
-    DrawStats drawstats(drawship.GetShip());
+    DrawStats drawstats(drawship.GetShip(), &camera);
 
     double time = 0.001;
 
     while (window.isOpen())
     {
-        //sf::Clock clock;
-        //double time = clock.getElapsedTime().asMicroseconds();
-        
-        // Starting timer
-        //clock.restart();
-        
-        // I'm still not good at time management
-        //time = time/2;
-
         // Managing window
         sf::Event event;
         while (window.pollEvent(event))
@@ -88,7 +68,7 @@ int main()
         // User interaction
         interface.QwertyInter(drawship.GetShip());
 
-        Collision(drawship.GetShip(), pirates.GetPirates(),  police, &quest, drawstats, camera);
+        Collision(drawship.GetShip(), pirates.GetPirates(),  police, &quest, drawstats);
 
         //drawpirateship.MoveShip(time, 100);
         drawship.MoveShip(time);
@@ -99,10 +79,6 @@ int main()
         // Drawing ship
         ship.setPosition((drawship.GetRect()).left, (drawship.GetRect()).top);
         
-        // Drawing pirate ship
-        //pirateship.setPosition((drawpirateship.GetRect()).left, (drawpirateship.GetRect()).top);
-        //std::cout << (drawpirateship.GetRect()).left << " " << (drawpirateship.GetRect()).top;
-        
         
         // Reset
         window.setView(camera.getView());
@@ -111,13 +87,12 @@ int main()
 
         background.DrawBack(window, drawship.GetShip());
 
-        drawstats.Update(window, camera);
+        drawstats.Update(window, "dynamic");
         
         pirates.Draw(window, time, 100, drawship.GetShip()->get_position().x_pos(), drawship.GetShip()->get_position().y_pos());
         
         police.Draw(window, drawship.GetShip()->get_position().x_pos(), drawship.GetShip()->get_position().y_pos());
         window.draw(ship);
-        //window.draw(pirateship);
     	window.display();
     }
 }

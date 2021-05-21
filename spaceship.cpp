@@ -31,6 +31,7 @@ void SpaceShip::move_ship(double time) {
 
         R = R + V * (time - time_of_moving_with_ac);
     } else {
+        std::cout << "Kek" << std::endl;
         R = R + (V * time);
     }
 }

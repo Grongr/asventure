@@ -8,14 +8,15 @@
 #include <array>
 #include "drawship.h"
 #include "dialogue.h"
-#include "fight.h"
 #include "police.h"
+#include "fight.h"
+//#include "drawstats.h"
 
 /*
  * Communication with pirate ships
  */
 
-void Collision(std::shared_ptr<SpaceShip> ship, std::array<DrawPirateShip, 9> pirates, Police police, Quest* quest, DrawStats ds, Camera& camera)
+void Collision(std::shared_ptr<SpaceShip> ship, std::array<DrawPirateShip, 9> pirates, Police police, Quest* quest, DrawStats& drawstats)
 {
     for (int i = 0; i < 9; i++)
     {
@@ -164,10 +165,11 @@ void Collision(std::shared_ptr<SpaceShip> ship, std::array<DrawPirateShip, 9> pi
 
     	    }
 
-            /*if (agr)
+            if (agr)
             {
-                Fight(ds, camera);
-            }*/
+                Fight(pirates[i], pirates[i].GetHeadCost(), drawstats);
+                window.close();
+            }
         }
     }
 
