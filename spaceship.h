@@ -138,6 +138,8 @@ public:
      */
     [[nodiscard]] double max_amount_of_fuel_to_give(double energy) const;
 
+    [[nodiscard]] double fuel_amount() const { return this->contain_v; }
+
     ~FuelTank() = default;
 
 private:
@@ -159,11 +161,6 @@ class EnergyFuelSystem {
 public:
 
     /*!
-     * Default constructor with no params
-     */
-    EnergyFuelSystem() : full_energy{0}, bat{0}, tank{0, 0, 0, 0} {}
-
-    /*!
      * This constructor could be used to create engine system
      * It makes a lot of identical batteries and one full of
      * fuel FuelTank
@@ -173,8 +170,10 @@ public:
      * @param fQ
      * @param fmv
      */
-    explicit EnergyFuelSystem(int size_of_bat_arr, double battery_energy, double fu,
-                              double fQ, double fmv) {
+    EnergyFuelSystem(int size_of_bat_arr, double battery_energy, double fu,
+                              double fQ, double fmv) :
+        max_energy{battery_energy * size_of_bat_arr}
+    {
        bat.resize(size_of_bat_arr);
 
        for (int i = 0; i < size_of_bat_arr; ++i)
@@ -183,6 +182,12 @@ public:
 
        this->tank.set_params(fmv, fmv, fu, fQ);
     }
+
+    /*!
+     * Uses some energy from batteries
+     * @return totall amount of energy we have used
+     */
+    double use_batteries(double energy);
 
     /*!
      * Checks if we have enough energy to give that amount of fuel;
@@ -198,7 +203,19 @@ public:
      */
     double use_some_fuel(double fuel);
 
+    /*!
+     * Method to use in pair
+     * with character class
+     * @return fuel amount int fuel tank
+     */
     [[nodiscard]] double get_fuel() const { return tank.get_fuel(); }
+
+    /*!
+     * Method to use in pair
+     * with character class
+     * @return persent of remaining energy
+     */
+    [[nodiscard]] int get_energy_prop() const;
 
     virtual ~EnergyFuelSystem() = default;
 
@@ -206,6 +223,8 @@ private:
     double full_energy{0};
     std::vector<Battery> bat;
     FuelTank tank{0, 0, 0, 0};
+
+    const double max_energy;
 };
 //-----------------------------------------------------------------------------------------------------------//
 /*!
@@ -337,6 +356,34 @@ public:
     [[nodiscard]] Vector get_acceleration() const { return AVec; }
 
     /*!
+     * Almoust the same func as in EFS.
+     * @param fuel  -  needed amount of fuel to use
+     * @return totally used amount of fuel
+     */
+    double use_some_fuel(double fuel) { return this->efs.use_some_fuel(fuel); }
+
+    /*!
+     * Almoust the same func as in EFS
+     * @param energy  -  needed amount of energy to use
+     * @return used amount of fuel
+     */
+    double use_batteries(double energy) { return this->efs.use_batteries(energy); }
+
+    /*!
+     * Method to use it with 
+     * character class
+     * @return remaining fuel amount
+     */
+    [[nodiscard]] double get_remaining_fuel() const { return this->efs.get_fuel(); }
+
+    /*!
+     * Methos to use it in pair 
+     * with character class
+     * @return persent of remaining energy
+     */
+    [[nodiscard]] int get_energy_prop() const { return this->efs.get_energy_prop(); }
+
+    /*!
      * Destructor of spaceship. To avoid hierarchy errors (:
      */
     virtual ~SpaceShip() = default;
@@ -348,7 +395,6 @@ protected:
      * @param AVec              acceleration
      * @param fuel              how much fuel it has
      * @param fuel_cost         how much fuel it eats in a time
-     * @param bat               batteries of this ship
      * @param is_engine_active  is engine active??? hmmmm, Иногда я думаю, что моя гениальность создает гравитацию
      */
     Vector R{}, V{}, AVec{1, 0};

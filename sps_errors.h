@@ -179,5 +179,16 @@ private:
     std::string error;
 };
 
+class EnemyRandomActError : public std::exception {
+public:
+
+    explicit EnemyRandomActError(std::string error) : error{std::move(error)} {}
+
+    [[nodiscard]] const char* what() const noexcept final { return error.c_str(); }
+
+private:
+    std::string error;
+};
+
 #endif //ASVERGIN_SPS_ERRORS_H
 

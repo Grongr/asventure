@@ -112,6 +112,31 @@ bool EnergyFuelSystem::have_enough_resources(double fuel) {
     return true;
 }
 
+double EnergyFuelSystem::use_batteries(double energy) {
+    double needed_energy = energy;
+
+    auto it = this->bat.rbegin();
+    
+    while (energy > 0 && full_energy > 0 && it != this->bat.rend()) {
+        double use = it->use_battery(energy);
+        ++it;
+        energy -= use;
+        full_energy -= use;
+    }
+
+    if (full_energy <= 0) {
+        full_energy = 0;
+        return full_energy;
+    }
+
+    return needed_energy - energy;
+}
+
+[[nodiscard]] int EnergyFuelSystem::get_energy_prop() const {
+    
+    return (int)(this->full_energy / this->max_energy * 100);
+}
+
 double EnergyFuelSystem::use_some_fuel(double fuel) {
     fuel = fmin(this->tank.max_amount_of_fuel_to_give(this->full_energy), fuel);
 

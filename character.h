@@ -2,19 +2,17 @@
 #define CHARACTER_HEADER_INCLUDED
 
 #include <memory>
+#include <random>
 #include <string>
 
 #include "sps_errors.h"
+#include "spaceship.h"
+
+#define max_enemy_hills 5
 
 //-----------------------------------------------------------------------------------------------------------//
 class Character {
 public:
-
-    /*!
-     * Constructor with no params.
-     */
-    Character() : _ammo_count{0}, _damage{0}, _armor{0},
-                  _money{0},      _BFG{0},    _hp{0}     {}
 
     /*!
      * Constructor with all the params of character class
@@ -27,9 +25,10 @@ public:
      * @param hp          - Health Points of player ship
      */
     Character(int ammo_count, int damage, int armor,
-           int money, int BFG, int hp) : 
+           int money, int BFG, int hp, std::shared_ptr<SpaceShip> ship) : 
            _ammo_count{ammo_count}, _damage{damage}, _armor{armor},
-           _money{money}, _BFG{BFG}, _hp{hp}, _is_alive{true} {}
+           _money{money}, _BFG{BFG}, _hp{hp}, _max_hp{hp}, _is_alive{true},
+           ship{ship}, _is_in_defence{false}, _is_in_maneuver{false} {}
     
     /*!
      * @return ammo_count param
@@ -77,6 +76,11 @@ public:
     [[nodiscard]] bool is_in_defence() const;
 
     /*!
+     * @return ship param
+     */
+    [[nodiscard]] std::shared_ptr<SpaceShip> get_ship() const;
+
+    /*!
      * Methos which is needed to
      * attack character's enemy
      * @param enemy  -  character's enemy
@@ -112,13 +116,79 @@ public:
     void active_defence();
 
     /*!
+     * You reward
+     * @param  -  addition to your _money param
+     */
+    void reward(int money);
+
+    /*!
      * Add 1d8 to hp param.
      * Uses battery energy.
      * @return result hp
      */
     int repair();
 
+    /*!
+     * If you wanna do a random shit with 
+     * your character
+     */
+    void random_act(Character& player);
+
+    /*!
+     * Enemie's ai. In battle it uses
+     * this as a brain. Maybe that's
+     * the reason why all pirates are
+     * stupid???
+     * @param player  -  player character class instance
+     * @param enemy   -  enemy character class instance
+     */
+    static void enemy_ai(Character& player, Character& enemy) {
+        double persent = enemy._hp / enemy._max_hp * 100;
+
+        std::random_device rd;
+
+        if (rd() % 10 == 0) {
+           enemy.random_act(player); 
+           enemy.random_act(player); 
+        }
+        // if rd() % 10 != 0
+        else {
+            if (is_bigger(persent, 40.0)) {
+                if (player.is_in_defence())
+                    enemy.maneuver(player);
+
+                enemy.attack(player);
+            // -------------------------------------- //
+            } else if (is_bigger(persent, 10.0)) {
+
+                if (enemy._hill_count <= max_enemy_hills) {
+
+                    enemy.repair();
+                    ++enemy._hill_count;
+
+                } else {
+                    enemy.active_defence();
+                }
+
+                if (enemy._hill_count <= max_enemy_hills) {
+
+                    enemy.repair();
+                    ++enemy._hill_count;
+
+                } else {
+                    enemy.attack(player);
+                }
+            // -------------------------------------- //
+            } else {
+                enemy.attack(player);
+                enemy.attack(player);
+            }
+        }
+    }
+
 private:
+    std::shared_ptr<SpaceShip> ship;
+    int _hill_count{0};
     int _ammo_count;
     int _damage;
     int _armor;
@@ -126,10 +196,13 @@ private:
     int _BFG;
     int _hp;
 
+    const int _max_hp;
+
     bool _is_in_maneuver{false};
     bool _is_in_defence{false};
     bool _is_alive{false};
 };
+
 //-----------------------------------------------------------------------------------------------------------//
 
 class CharacterBuilder {
@@ -179,18 +252,26 @@ public:
     void set_hp(int hp);
 
     /*!
+     * Sets ship param
+     * @param ship
+     */
+    void set_ship(std::shared_ptr<SpaceShip> ship);
+
+    /*!
      * Method that makes it possible to create character
      * from bulder class object
      */
     [[nodiscard]] std::shared_ptr<Character> make_char() const {
-        if (count_of_params != 6)
-            throw CharacterBParamCountError("Wrong param number. You set " + std::to_string(6) + ", but needed 6");
-        std::shared_ptr<Character> chr(new Character(ammo_count, damage, armor, money, BFG, hp));
+        if (count_of_params != 7)
+            throw CharacterBParamCountError("Wrong param number. You set " + std::to_string(count_of_params) + ", but needed 7");
+        std::shared_ptr<Character> chr(new Character(ammo_count, damage, armor, money, BFG, hp, ship));
 
         return chr;
     }
     
 private:
+    std::shared_ptr<SpaceShip> ship;
+
     int ammo_count;
     int damage;
     int armor;

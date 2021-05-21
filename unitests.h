@@ -55,4 +55,9 @@ void make_standart_police_ship(PoliceShipBuilder& builder);
  */
 void police_ship_move_unit_test();
 
+/*!
+ * Tests character's combat methods.
+ */
+void character_method_unit_test();
+
 #endif //SPACESHIP_UNITESTS_H

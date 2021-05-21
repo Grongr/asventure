@@ -3,11 +3,14 @@
 //
 
 #include "unitests.h"
+#include "character.h"
 #include "geometricvector.h"
+#include "pirateship.h"
 #include "policeship.h"
 #include "spaceship.h"
 
 #include <cmath>
+#include <ios>
 
 //-----------------------------------------------------------------------------------------------------------//
 //! Testing move_ship
@@ -225,5 +228,98 @@ void police_ship_move_unit_test() {
     }
 }
 
-#undef TEST
+void character_method_unit_test() {
+    // Test 17
+    CharacterBuilder chb1;
+    CharacterBuilder chb2;
 
+    chb1.set_ammo_count(10000);
+    chb1.set_BFG(9);
+    chb1.set_damage(3);
+    chb1.set_armor(15);
+    chb1.set_money(0);
+    chb1.set_hp(40);
+
+    chb2.set_ammo_count(50);
+    chb2.set_BFG(13);
+    chb2.set_damage(5);
+    chb2.set_armor(18);
+    chb2.set_money(10000);
+    chb2.set_hp(40);
+
+    
+    // This spaceship will be able to fly from top left to the
+    // bottom right angles of map, when it has a full fuel tank
+
+    EnergyFuelSystemBuilder builder{10, 10, 1, 60, 6000};
+    SpaceShipBuilder spb;
+    spb.set_fuel_cost(1);
+    spb.set_AVec(Vector(0, 0));
+    spb.set_R(Vector(0, 0));
+    spb.set_V(Vector(0, 0));
+    spb.set_mass(1000);
+    spb.set_is_engine_active(false);
+       
+    chb1.set_ship(spb.make_spaceship(builder));
+
+    auto player = chb1.make_char();
+
+    EnergyFuelSystemBuilder builder2{1, 100000, 1, 60, 10000000};
+    chb2.set_ship(spb.make_spaceship(builder2));
+
+    auto enemy = chb2.make_char();
+
+    std::cout << "################################" << std::endl;
+
+    std::cout << "Player  Enemy" << std::endl;
+    std::cout << player->hp() << " " << enemy->hp() << std::endl;
+
+    std::cout << "################################" << std::endl;
+
+    int damage = player->attack(*enemy);
+    std::cout << "Player Attacks Enemy. Damage: " << damage << std::endl;
+    std::cout << player->hp() << " " << enemy->hp() << std::endl;
+
+    std::cout << "################################" << std::endl;
+
+    damage = enemy->attack(*player);
+    std::cout << "Enemy attacks player. Damage: " << damage << std::endl;
+    std::cout << player->hp() << " " << enemy->hp() << std::endl;
+
+    std::cout << "################################" << std::endl;
+
+    player->active_defence();
+    std::cout << "Player Attacks Enemy. Damage: " << damage << std::endl;
+    std::cout << player->hp() << " " << enemy->hp() << std::endl;
+
+    std::cout << "################################" << std::endl;
+
+    damage = enemy->attack(*player);
+    std::cout << "Enemy attacks player. Damage: " << damage << std::endl;
+    std::cout << player->hp() << " " << enemy->hp() << std::endl;
+
+    std::cout << "################################" << std::endl;
+
+    std::cout << "Player make a maneuver" << std::endl;
+    damage = player->maneuver(*enemy);
+    std::cout << std::boolalpha;
+    std::cout << "Is in maneuver: " << player->is_in_maneuver() << std::endl;
+
+    std::cout << "################################" << std::endl;
+
+    damage = enemy->maneuver(*player);
+    std::cout << std::boolalpha;
+    std::cout << "Is in maneuver: " << player->is_in_maneuver() << std::endl;
+    std::cout << "Enemy maneuver to player. Damage: " << damage << std::endl;
+    std::cout << player->hp() << " " << enemy->hp() << std::endl;
+
+    std::cout << "################################" << std::endl;
+
+    damage = player->attack(*player);
+    std::cout << std::boolalpha;
+    std::cout << "Is in maneuver: " << player->is_in_maneuver() << std::endl;
+    std::cout << "Player attack enemy. Damage: " << damage << std::endl;
+    std::cout << player->hp() << " " << enemy->hp() << std::endl;
+}
+
+#undef TEST
