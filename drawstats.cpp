@@ -4,9 +4,9 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 
-DrawStats::DrawStats()
+DrawStats::DrawStats(std::shared_ptr<SpaceShip> ship)
 {
-    character = InitCH(50, 15, 3, 100, 11, 100);
+    character = InitCH(50, 15, 3, 100, 11, 100, ship);
     rect = sf::FloatRect(452, 452, 132, 132);
 
     stat.loadFromFile("../images/states/states.png");
@@ -24,7 +24,27 @@ DrawStats::DrawStats()
     hp[3].loadFromFile("../images/states/hp60.png");
     hp[4].loadFromFile("../images/states/hp80.png");
     hp[5].loadFromFile("../images/states/hp100.png");
+
+    bat[0].loadFromFile("../images/ship/bat0.png");
+    bat[1].loadFromFile("../images/ship/bat10.png");
+    bat[2].loadFromFile("../images/ship/bat20.png");
+    bat[3].loadFromFile("../images/ship/bat30.png");
+    bat[4].loadFromFile("../images/ship/bat40.png");
+    bat[5].loadFromFile("../images/ship/bat50.png");
+    bat[6].loadFromFile("../images/ship/bat60.png");
+    bat[7].loadFromFile("../images/ship/bat70.png");
+    bat[8].loadFromFile("../images/ship/bat80.png"); 
+    bat[9].loadFromFile("../images/ship/bat100.png");
+
+    ft[0].loadFromFile("../images/ship/fu0.png");
+    ft[1].loadFromFile("../images/ship/fu10.png");
+    ft[2].loadFromFile("../images/ship/fu25.png");
+    ft[3].loadFromFile("../images/ship/fu50.png");
+    ft[4].loadFromFile("../images/ship/fu75.png");
+    ft[5].loadFromFile("../images/ship/fu100.png");
+
     
+
     //sf::Font f;
     font.loadFromFile("../images/font/18839.otf");
     //font = f;
@@ -57,6 +77,8 @@ void DrawStats::Update(sf::RenderWindow& window, Camera& camera)
     sf::Sprite stat0(stat);
     sf::Sprite hp0;
     sf::Sprite am0;
+    sf::Sprite bat0;
+    sf::Sprite ft0;
     
     if (character->hp() > 80)
         hp0 = sf::Sprite(hp[5]);
@@ -88,6 +110,40 @@ void DrawStats::Update(sf::RenderWindow& window, Camera& camera)
     else if (character->ammo_count() > 0)
         am0 = sf::Sprite(ammo[0]);
 
+    if (character->get_ship()->get_energy_prop() > 90)
+        bat0 = sf::Sprite(bat[9]);
+    else if (character->get_ship()->get_energy_prop() > 70)
+        bat0 = sf::Sprite(bat[8]);
+    else if (character->get_ship()->get_energy_prop() > 60)
+        bat0 = sf::Sprite(bat[7]);
+    else if (character->get_ship()->get_energy_prop() > 50)
+        bat0 = sf::Sprite(bat[6]);
+    else if (character->get_ship()->get_energy_prop() > 40)
+        bat0 = sf::Sprite(bat[5]);
+    else if (character->get_ship()->get_energy_prop() > 30)
+        bat0 = sf::Sprite(bat[4]);
+    else if (character->get_ship()->get_energy_prop() > 20)
+        bat0 = sf::Sprite(bat[3]);
+    else if (character->get_ship()->get_energy_prop() > 10)
+        bat0 = sf::Sprite(bat[2]);
+    else if (character->get_ship()->get_energy_prop() > 0)
+        bat0 = sf::Sprite(bat[1]);
+    else if (character->get_ship()->get_energy_prop() == 0)
+        bat0 = sf::Sprite(bat[0]);
+
+    if (character->get_ship()->get_percent_fuel() > 75)
+        ft0 = sf::Sprite(ft[5]);
+    if (character->get_ship()->get_percent_fuel() > 50)
+        ft0 = sf::Sprite(ft[4]);
+    if (character->get_ship()->get_percent_fuel() > 25)
+        ft0 = sf::Sprite(ft[3]);
+    if (character->get_ship()->get_percent_fuel() > 10)
+        ft0 = sf::Sprite(ft[2]);
+    if (character->get_ship()->get_percent_fuel() > 0)
+        ft0 = sf::Sprite(ft[1]);
+    if (character->get_ship()->get_percent_fuel() <= 0)
+        ft0 = sf::Sprite(ft[0]);
+
     double x = camera.getCameraCoords().x_pos() + 388;
     double y = camera.getCameraCoords().y_pos() + 393;
 
@@ -98,6 +154,8 @@ void DrawStats::Update(sf::RenderWindow& window, Camera& camera)
         am0.setPosition(x, y);
     if (character->hp() > 0)
         hp0.setPosition(x, y);
+    bat0.setPosition(x - 1200, y);
+    ft0.setPosition(x - 800, y);
 
     money.setPosition(x + 55, y + 65);
     damage.setPosition(x + 170, y + 65);
@@ -117,5 +175,7 @@ void DrawStats::Update(sf::RenderWindow& window, Camera& camera)
     window.draw(stat0);
     window.draw(am0);
     window.draw(hp0);
+    window.draw(bat0);
+    window.draw(ft0);
     //window.display();
 }

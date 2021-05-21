@@ -15,7 +15,7 @@
  * Communication with pirate ships
  */
 
-void Collision(std::shared_ptr<SpaceShip> ship, std::array<DrawPirateShip, 9> pirates, Police police, Quest* quest)
+void Collision(std::shared_ptr<SpaceShip> ship, std::array<DrawPirateShip, 9> pirates, Police police, Quest* quest, DrawStats ds, Camera& camera)
 {
     for (int i = 0; i < 9; i++)
     {
@@ -164,10 +164,10 @@ void Collision(std::shared_ptr<SpaceShip> ship, std::array<DrawPirateShip, 9> pi
 
     	    }
 
-            if (agr)
+            /*if (agr)
             {
-                Fight();
-            }
+                Fight(ds, camera);
+            }*/
         }
     }
 
@@ -332,6 +332,7 @@ void Collision(std::shared_ptr<SpaceShip> ship, std::array<DrawPirateShip, 9> pi
     	    }
     	}
     	    
+
     	    else if(quest->is_done())
     	    {
     	        sf::RenderWindow window (sf::VideoMode(1221, 725), "dialog_with_cop");

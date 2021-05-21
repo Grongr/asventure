@@ -7,8 +7,8 @@
 
 EnergyFuelSystemBuilder InitEFS() {
     EnergyFuelSystemBuilder efsb;
-	efsb.set_size_of_bat_arr(50);
-	efsb.set_bat_energy(100);
+	efsb.set_size_of_bat_arr(10);
+	efsb.set_bat_energy(20000);
 	efsb.set_fmv(10000);
 	efsb.set_fu(1);
 	efsb.set_fQ(1);
@@ -44,7 +44,7 @@ std::shared_ptr<PirateShip> InitPS(std::list<Vector> trajectory, int head_cost, 
     return std::move(pirate_ship);
 }
 
-std::shared_ptr<Character> InitCH(int ac, int armor, int damage, int money, int bfg, int hp) {
+std::shared_ptr<Character> InitCH(int ac, int armor, int damage, int money, int bfg, int hp, std::shared_ptr<SpaceShip> ship) {
     CharacterBuilder chb;
     chb.set_ammo_count(ac);
     chb.set_armor(armor);
@@ -52,6 +52,7 @@ std::shared_ptr<Character> InitCH(int ac, int armor, int damage, int money, int 
     chb.set_money(money);
     chb.set_BFG(bfg);
     chb.set_hp(hp);
+    chb.set_ship(ship);
     auto character = chb.make_char();
 
     return std::move(character);

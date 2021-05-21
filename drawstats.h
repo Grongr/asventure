@@ -16,9 +16,11 @@ private:
    sf::Text armor;
    sf::Text bfg;
    sf::Font font;
+   std::array<sf::Texture, 10> bat;
+   std::array<sf::Texture, 6> ft;
 
 public:
-    DrawStats();
+    DrawStats(std::shared_ptr<SpaceShip> ship);
     virtual ~DrawStats() = default;
     void Update(sf::RenderWindow& window, Camera& camera);
     sf::FloatRect GetRect();

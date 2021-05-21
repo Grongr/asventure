@@ -14,7 +14,7 @@
 #include "quests.h"
 #include <vector>
 #include "pirates.h"
-#include "drawstats.h"
+//#include "drawstats.h"
 #include "character.h"
 #include "init.h"
 //#include "police.h"
@@ -62,7 +62,7 @@ int main()
 
     Police police;
 
-    DrawStats drawstats;
+    DrawStats drawstats(drawship.GetShip());
 
     double time = 0.001;
 
@@ -88,7 +88,7 @@ int main()
         // User interaction
         interface.QwertyInter(drawship.GetShip());
 
-        Collision(drawship.GetShip(), pirates.GetPirates(),  police, &quest);
+        Collision(drawship.GetShip(), pirates.GetPirates(),  police, &quest, drawstats, camera);
 
         //drawpirateship.MoveShip(time, 100);
         drawship.MoveShip(time);
