@@ -11,7 +11,7 @@ Police::Police()
         std::cout<<"kek";
 
     int x, y;
-    for (int i = 0; i < 9; i++)
+    for (int i = 0; i < 2; i++)
     {
         std::getline(file, one_cop);
         std::stringstream ss;
@@ -25,7 +25,7 @@ Police::Police()
 
     file.close();
 
-    for (int i = 0; i < 9; i ++)
+    for (int i = 0; i < 2; i ++)
     {
         DrawPoliceShip dpl(radius_vectors[i], 0, 0);
         policeships[i] = dpl;
@@ -34,12 +34,12 @@ Police::Police()
     policeTexture.loadFromFile("../images/ships/police.png");
     sf::Sprite policeSprite(policeTexture);
 
-    for (int i = 0; i < 9; i++)
+    for (int i = 0; i < 2; i++)
     {
         sprites[i] = policeSprite;
     }
     
-    for (int i = 0; i < 9; i ++)
+    for (int i = 0; i < 2; i ++)
     {
         sprites[i].setPosition(radius_vectors[i].x_pos(), radius_vectors[i].y_pos());
     }
@@ -47,7 +47,7 @@ Police::Police()
 
 void Police::Draw(sf::RenderWindow& window, double x, double y)
 {
-    for (int i = 0; i < 9; i ++)
+    for (int i = 0; i < 2; i ++)
     {
         if ( (radius_vectors[i].x_pos() > (x - 840) || radius_vectors[i].x_pos() < (x +840)) || (radius_vectors[i].y_pos() > (y - 525) || radius_vectors[i].y_pos() < (y + 525)))
             window.draw(sprites[i]);

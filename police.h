@@ -10,13 +10,14 @@
 class Police
 {
 private:
-    std::array<DrawPoliceShip, 9> policeships;
-    std::array<Vector, 9> radius_vectors;
-    std::array<sf::Sprite, 9> sprites;
+    std::array<DrawPoliceShip, 2> policeships;
+    std::array<Vector, 2> radius_vectors;
+    std::array<sf::Sprite, 2> sprites;
     sf::Texture policeTexture;
 
 public:
     Police();
     void Draw(sf::RenderWindow& window, double x, double y);
-    std::array<DrawPoliceShip, 9> GetPolice() { return policeships; }
+    std::array<DrawPoliceShip, 2> GetPolice() { return policeships; }
+    std::array<Vector, 2> GetCoords() { return radius_vectors; }
 };

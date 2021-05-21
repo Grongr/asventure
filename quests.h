@@ -8,18 +8,18 @@
  class Quest
  {
      private:
-        bool deal;
+        bool done;
         bool active;
      public:
         Quest()
         {
             this->active = false;
-            this->deal = false;
+            this->done = false;
         }
-        bool is_deal() { return deal; }
+        bool is_done() { return done; }
         bool is_active() { return active; }
         void make_active() { active = true; }
-        void make_deal() { deal = true; }
+        void make() { done = true; }
  };
  
  #endif // QUEST_H

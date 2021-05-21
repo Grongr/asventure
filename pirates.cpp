@@ -78,7 +78,7 @@ void Pirates::Draw(sf::RenderWindow& window, double time, double constant, doubl
         (pirateships[i]).MoveShip(time, constant);
         sprites[i].setPosition((pirateships[i]).GetRect().left, (pirateships[i].GetRect().top));
 
-        if ((pirateships[i].GetRect().left > (x - 840) || pirateships[i].GetRect().left < (x + 840)) && (pirateships[i].GetRect().top > (y - 525) || pirateships[i].GetRect().top < (y + 525)))
+        if ((pirateships[i].GetRect().left > (x - 840) || pirateships[i].GetRect().left < (x + 840)) && (pirateships[i].GetRect().top > (y - 525) || pirateships[i].GetRect().top < (y + 525)) && pirateships[i].IsAlive())
             window.draw(sprites[i]);
     }
 }

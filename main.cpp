@@ -17,7 +17,7 @@
 #include "drawstats.h"
 #include "character.h"
 #include "init.h"
-#include "police.h"
+//#include "police.h"
 
 int main() 
 {
@@ -88,7 +88,7 @@ int main()
         // User interaction
         interface.QwertyInter(drawship.GetShip());
 
-        Collision(drawship.GetShip(), pirates.GetPirates(),  &quest);
+        Collision(drawship.GetShip(), pirates.GetPirates(),  police, &quest);
 
         //drawpirateship.MoveShip(time, 100);
         drawship.MoveShip(time);

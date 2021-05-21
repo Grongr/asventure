@@ -64,3 +64,5 @@ DrawPoliceShip::DrawPoliceShip(Vector cc, double r, double aV)
     this->rect = sf::FloatRect(500, 500, 32, 32);
     this->police_ship = InitPL(cc, r, aV);
 }
+
+std::shared_ptr<PoliceShip> DrawPoliceShip::GetShip() { return this->police_ship; }
