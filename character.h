@@ -131,8 +131,9 @@ public:
     /*!
      * If you wanna do a random shit with 
      * your character
+     * @return  -  result damage
      */
-    void random_act(Character& player);
+    int random_act(Character& player);
 
     /*!
      * Enemie's ai. In battle it uses
@@ -141,23 +142,27 @@ public:
      * stupid???
      * @param player  -  player character class instance
      * @param enemy   -  enemy character class instance
+     * @return        -  result damage enemy added
      */
-    static void enemy_ai(Character& player, Character& enemy) {
+    [[nodiscard]] static int enemy_ai(Character& player, Character& enemy) {
         double persent = enemy._hp / enemy._max_hp * 100;
+        int result_damage = 0;
 
         std::random_device rd;
 
         if (rd() % 10 == 0) {
-           enemy.random_act(player); 
-           enemy.random_act(player); 
+           result_damage += enemy.random_act(player); 
+           result_damage += enemy.random_act(player); 
         }
         // if rd() % 10 != 0
         else {
             if (is_bigger(persent, 40.0)) {
-                if (player.is_in_defence())
+                if (player.is_in_maneuver())
                     enemy.maneuver(player);
+                else
+                    result_damage += enemy.attack(player);
 
-                enemy.attack(player);
+                result_damage += enemy.attack(player);
             // -------------------------------------- //
             } else if (is_bigger(persent, 10.0)) {
 
@@ -176,14 +181,20 @@ public:
                     ++enemy._hill_count;
 
                 } else {
-                    enemy.attack(player);
+                    result_damage += enemy.attack(player);
                 }
             // -------------------------------------- //
             } else {
-                enemy.attack(player);
-                enemy.attack(player);
+                if (player.is_in_maneuver())
+                    enemy.maneuver(player);
+                else
+                    result_damage += enemy.attack(player);
+
+                result_damage += enemy.attack(player);
+
             }
         }
+        return result_damage;
     }
 
 private:
@@ -252,12 +263,15 @@ public:
     void set_hp(int hp);
 
     /*!
+<<<<<<< HEAD
      * Sets ship param
      * @param ship
      */
     void set_ship(std::shared_ptr<SpaceShip> ship);
 
     /*!
+=======
+>>>>>>> origin/graphics
      * Method that makes it possible to create character
      * from bulder class object
      */
@@ -265,7 +279,6 @@ public:
         if (count_of_params != 7)
             throw CharacterBParamCountError("Wrong param number. You set " + std::to_string(count_of_params) + ", but needed 7");
         std::shared_ptr<Character> chr(new Character(ammo_count, damage, armor, money, BFG, hp, ship));
-
         return chr;
     }
     
