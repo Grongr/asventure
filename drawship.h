@@ -6,6 +6,7 @@
 
 #include "spaceship.h"
 #include "pirateship.h"
+#include "geometricvector.h"
 #include "init.h"
 
 /*
@@ -51,17 +52,18 @@ class DrawShip
  * It stores ptr on the pirate ship and params
  * for it's sprite
  */
-
 class DrawPirateShip: public DrawShip
 {
     private:
         std::shared_ptr<PirateShip> pirate_ship;
         sf::FloatRect rect;
+        bool is_alive;
     public:
         /*
          * Builds PirateShip, sets params for rect
          */
         DrawPirateShip();
+        DrawPirateShip(std::list<Vector> trajectory, int head_cost, Vector velocity, Vector radius_vector);
         
         /*
          * Changes location of pirate ship in time.
@@ -78,6 +80,23 @@ class DrawPirateShip: public DrawShip
         /*
          * Returns rect params
          */
+        sf::FloatRect GetRect();
+
+        bool IsAlive() { return is_alive; }
+};
+
+/*
+ * This class contains funcs to draw PoliceShip.
+ */
+class DrawPoliceShip: public DrawShip
+{
+     private:
+        std::shared_ptr<PoliceShip> police_ship;
+        sf::FloatRect rect;
+    public:
+        DrawPoliceShip();
+        DrawPoliceShip(Vector cc, double r, double aV);
+        std::shared_ptr<PoliceShip> GetShip();
         sf::FloatRect GetRect();
 };
 

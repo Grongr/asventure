@@ -12,11 +12,19 @@
 #include "background.h"
 #include "collision.h"
 #include "quests.h"
+#include <vector>
+#include "pirates.h"
+#include "drawstats.h"
+#include "character.h"
+#include "init.h"
+//#include "police.h"
 
 int main() 
 {
     // Rendering window
     sf::RenderWindow window(sf::VideoMode(1680, 1050), "asventure");
+    
+    //window.setFramerateLimit(30);
     
     // Init camera view to follow your ship
     Camera camera;
@@ -33,36 +41,41 @@ int main()
     drawship.GetShip()->toggle_engine();
     
     // Pirate ship is building
-    DrawPirateShip drawpirateship;
+    
+    //DrawPirateShip drawpirateship;
+
     Quest quest;
 
     // Sprite for pirate ship
-    sf::Texture pirateTexture;
-    pirateTexture.loadFromFile("../images/ships/ship2.png");
-    sf::Sprite pirateship(pirateTexture);
+    //sf::Texture pirateTexture;
+    //pirateTexture.loadFromFile("../images/ships/ship2.png");
+    //sf::Sprite pirateship(pirateTexture);
     
     // Init user interaction
     Interface interface;
 
     menu(window);
     
-    /*sf::Texture backTexture; // <--------------- this works but background is limited
-    backTexture.loadFromFile("../images/interface/background.png");
-    sf::Sprite background(backTexture);
-    background.setPosition(0, 0);*/
-    
-    Background background; // <--------------- this matrix doesn't work
+    Background background;
+
+    Pirates pirates;
+
+    Police police;
+
+    DrawStats drawstats;
+
+    double time = 0.001;
 
     while (window.isOpen())
     {
-        sf::Clock clock;
-        double time = clock.getElapsedTime().asMicroseconds();
+        //sf::Clock clock;
+        //double time = clock.getElapsedTime().asMicroseconds();
         
         // Starting timer
-        clock.restart();
+        //clock.restart();
         
         // I'm still not good at time management
-        time = time/1000;
+        //time = time/2;
 
         // Managing window
         sf::Event event;
@@ -71,34 +84,40 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-        
+
         // User interaction
         interface.QwertyInter(drawship.GetShip());
 
+        Collision(drawship.GetShip(), pirates.GetPirates(),  police, &quest);
+
+        //drawpirateship.MoveShip(time, 100);
+        drawship.MoveShip(time);
+
         // Moving camera
         camera.StalkingShip(drawship.GetShip()->get_position());
-
-        Collision(drawship.GetShip(), drawpirateship.GetShip(), &quest);
-
-        drawpirateship.MoveShip(time, 100);
-        drawship.MoveShip(time);
 
         // Drawing ship
         ship.setPosition((drawship.GetRect()).left, (drawship.GetRect()).top);
         
         // Drawing pirate ship
-        pirateship.setPosition((drawpirateship.GetRect()).left, (drawpirateship.GetRect()).top);
+        //pirateship.setPosition((drawpirateship.GetRect()).left, (drawpirateship.GetRect()).top);
         //std::cout << (drawpirateship.GetRect()).left << " " << (drawpirateship.GetRect()).top;
-
+        
+        
         // Reset
         window.setView(camera.getView());
         window.clear();
+        
 
-        background.DrawBack(window);
-        //window.draw(background);
+        background.DrawBack(window, drawship.GetShip());
 
+        drawstats.Update(window, camera);
+        
+        pirates.Draw(window, time, 100, drawship.GetShip()->get_position().x_pos(), drawship.GetShip()->get_position().y_pos());
+        
+        police.Draw(window, drawship.GetShip()->get_position().x_pos(), drawship.GetShip()->get_position().y_pos());
         window.draw(ship);
-        window.draw(pirateship);
+        //window.draw(pirateship);
     	window.display();
     }
 }

@@ -9,6 +9,7 @@ class Camera
 {
     private:
         sf::View camera_view;
+        double x, y;
     public:
         Camera()
         {
@@ -18,11 +19,27 @@ class Camera
         }
         sf::View getView()
         {
-            return this->camera_view;
+            return camera_view;
         }
         void StalkingShip(Vector vec)
         {
-            camera_view.setCenter(vec.x_pos(), vec.y_pos());
+
+            x = vec.x_pos();
+            y = vec.y_pos();
+
+            if (x < 840)
+                x = 840;
+            if (x > 4200)
+                x = 4200;
+            if (y < 525)
+                y = 525;
+            if (y > 2625)
+                y = 2625;
+            camera_view.setCenter(x, y);
+        }
+        Vector getCameraCoords()
+        {
+            return Vector(x, y);
         }
 };
 

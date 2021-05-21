@@ -71,6 +71,7 @@ public:
     [[nodiscard]] bool is_in_maneuver() const;
 
     /*!
+<<<<<<< HEAD
      * @return _is_in_defence param
      */
     [[nodiscard]] bool is_in_defence() const;
@@ -81,6 +82,8 @@ public:
     [[nodiscard]] std::shared_ptr<SpaceShip> get_ship() const;
 
     /*!
+=======
+>>>>>>> origin/graphics
      * Methos which is needed to
      * attack character's enemy
      * @param enemy  -  character's enemy
@@ -252,12 +255,15 @@ public:
     void set_hp(int hp);
 
     /*!
+<<<<<<< HEAD
      * Sets ship param
      * @param ship
      */
     void set_ship(std::shared_ptr<SpaceShip> ship);
 
     /*!
+=======
+>>>>>>> origin/graphics
      * Method that makes it possible to create character
      * from bulder class object
      */
@@ -265,7 +271,6 @@ public:
         if (count_of_params != 7)
             throw CharacterBParamCountError("Wrong param number. You set " + std::to_string(count_of_params) + ", but needed 7");
         std::shared_ptr<Character> chr(new Character(ammo_count, damage, armor, money, BFG, hp, ship));
-
         return chr;
     }
     

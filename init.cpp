@@ -3,6 +3,7 @@
 #include "init.h"
 #include "pirateship.h"
 #include "spaceship.h"
+//#include "policeship.h"
 
 EnergyFuelSystemBuilder InitEFS() {
     EnergyFuelSystemBuilder efsb;
@@ -20,39 +21,55 @@ std::shared_ptr<SpaceShip> InitSS() {
 	ssb.set_fuel_cost(1);
 	ssb.set_is_engine_active(false);
 	ssb.set_AVec(Vector(0, 0));
-	ssb.set_R(Vector(150,150));
+	ssb.set_R(Vector(1680,1050));
 	ssb.set_V(Vector(0,0));
 	ssb.set_mass(0);
 	auto ship = ssb.make_spaceship(InitEFS());
 	
-	/* return std::move(ship); */
-    return ship;
+    return std::move(ship);
 }
 
-std::shared_ptr<PirateShip> InitPS() {
+std::shared_ptr<PirateShip> InitPS(std::list<Vector> trajectory, int head_cost, Vector velocity, Vector radius_vector) {
     PirateShipBuilder psb;
-    Vector vec1, vec2, vec3, vec4;
-    vec1 = Vector(500, 500);
-    vec2 = Vector(150, 320);
-    vec3 = Vector(380, 270);
-    vec4 = Vector(500, 500);
-    std::list<Vector> List;
-    List.push_back(vec1);
-    List.push_back(vec2);
-    List.push_back(vec3);
-    List.push_back(vec4);
-
-    psb.set_trajectory (List);
-    psb.set_head_cost(10000);
-    psb.set_V(Vector(0.1, 0.1));
-    psb.set_R(Vector(0, 0));
+    psb.set_trajectory (trajectory);
+    psb.set_head_cost(head_cost);
+    psb.set_V(velocity);
+    psb.set_R(radius_vector);
 	psb.set_fuel_cost(1);
 	psb.set_is_engine_active(true);
 	psb.set_AVec(Vector(0, 0));
     psb.set_mass(0);
     auto pirate_ship = psb.make_pirate_ship(InitEFS());
 
-    /* return std::move(pirate_ship); */
-    return pirate_ship;
+    return std::move(pirate_ship);
 }
 
+std::shared_ptr<Character> InitCH(int ac, int armor, int damage, int money, int bfg, int hp) {
+    CharacterBuilder chb;
+    chb.set_ammo_count(ac);
+    chb.set_armor(armor);
+    chb.set_damage(damage);
+    chb.set_money(money);
+    chb.set_BFG(bfg);
+    chb.set_hp(hp);
+    auto character = chb.make_char();
+
+    return std::move(character);
+}
+
+std::shared_ptr<PoliceShip> InitPL(Vector cc, double r, double aV)
+{
+    PoliceShipBuilder plb;
+    plb.set_center_coords(cc);
+    plb.set_angV(aV);
+    plb.set_radius(r);
+    plb.set_fuel_cost(1);
+	plb.set_is_engine_active(false);
+	plb.set_AVec(Vector(0, 0));
+	plb.set_R(Vector(800,800));
+	plb.set_V(Vector(0,0));
+	plb.set_mass(0);
+    auto policeship = plb.make_police_ship(InitEFS());
+
+    return std::move(policeship);
+}

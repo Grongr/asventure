@@ -28,10 +28,16 @@ sf::FloatRect DrawShip::GetRect() { return this->rect; }
 
 /*========================_PirateShip_==========================*/
 
-DrawPirateShip::DrawPirateShip()
+DrawPirateShip::DrawPirateShip(std::list<Vector> trajectory, int head_cost, Vector velocity, Vector radius_vector)
 {
     this->rect = sf::FloatRect(500, 500, 32, 32);
-    this->pirate_ship = InitPS();
+    this->pirate_ship = InitPS(trajectory, head_cost, velocity, radius_vector);
+}
+
+DrawPirateShip::DrawPirateShip()
+{
+    //this->rect = sf::FloatRect(500, 500, 32, 32);
+    //this->pirate_ship = InitPS();
 }
 
 void DrawPirateShip::MoveShip(double time, double constant)
@@ -45,3 +51,18 @@ void DrawPirateShip::MoveShip(double time, double constant)
 std::shared_ptr<PirateShip> DrawPirateShip::GetShip() { return this->pirate_ship; }
 
 sf::FloatRect DrawPirateShip::GetRect() { return this->rect; }
+
+
+/*==========================_PoliceShip_========================*/
+
+DrawPoliceShip::DrawPoliceShip()
+{
+}
+
+DrawPoliceShip::DrawPoliceShip(Vector cc, double r, double aV)
+{
+    this->rect = sf::FloatRect(500, 500, 32, 32);
+    this->police_ship = InitPL(cc, r, aV);
+}
+
+std::shared_ptr<PoliceShip> DrawPoliceShip::GetShip() { return this->police_ship; }
