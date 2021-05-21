@@ -3,6 +3,8 @@ project(asvergin)
 
 set(CMAKE_CXX_STANDARD 20)
 
+add_definitions(-O2)
+
 add_executable(main main.cpp 
                     spaceship.h spaceship.cpp
                     unitests.h unitests.cpp
