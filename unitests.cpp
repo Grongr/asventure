@@ -4,6 +4,7 @@
 
 #include "unitests.h"
 #include "character.h"
+#include "dialogue.h"
 #include "geometricvector.h"
 #include "pirateship.h"
 #include "policeship.h"
@@ -320,6 +321,12 @@ void character_method_unit_test() {
     std::cout << "Is in maneuver: " << player->is_in_maneuver() << std::endl;
     std::cout << "Player attack enemy. Damage: " << damage << std::endl;
     std::cout << player->hp() << " " << enemy->hp() << std::endl;
+}
+
+// Dialogue class test
+void dio_test() {
+    Dialogue dlg("../dialogues/pirate0.dlg");
+    dlg.print_dialogues(std::cout);
 }
 
 #undef TEST

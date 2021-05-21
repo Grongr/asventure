@@ -138,8 +138,6 @@ public:
      */
     [[nodiscard]] double max_amount_of_fuel_to_give(double energy) const;
 
-    [[nodiscard]] double fuel_amount() const { return this->contain_v; }
-
     ~FuelTank() = default;
 
 private:

@@ -60,4 +60,9 @@ void police_ship_move_unit_test();
  */
 void character_method_unit_test();
 
+/*!
+ * Tests for dialogue shit
+ */
+void dio_test();
+
 #endif //SPACESHIP_UNITESTS_H
